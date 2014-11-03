@@ -1,0 +1,385 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DB6CC091-9BC6-415C-A0D2-E34289669102}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>THOK.Wms.Dal</RootNamespace>
+    <AssemblyName>THOK.Wms.Dal</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=4.4.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\THOK.Common.Ef\bin\Debug\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="EntityRepository\BillReportRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDAreaRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CmdBillTypeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDCarRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDCellRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDCigaretteRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDCraneRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProductCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProductGradeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProductionLineRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProductOriginalRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProductStyleRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDProuductRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDShelfRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDUnitCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDUnitRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\CMDWarehouseRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\MESpreparePlanRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\PrintReportRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\SysBillTargetRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\SysErrorCodeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\SysTableStateRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\ViewbillmastRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\ViewCmdProductRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\ViewIncacheDateRepository.cs" />
+    <Compile Include="EntityRepository\ViewProduceDateRepository.cs" />
+    <Compile Include="EntityRepository\VIEWSTORAGERepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\ViewWcsTaskRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WCSTaskDetailHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WCSTaskDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WCSTaskHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WCSTaskRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBalanceDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBalanceMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBillDetailHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBillDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBillMasterHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSBillMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSFormulaDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSFormulaMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSPalletDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSPalletMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSProductionDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSProductionMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSProductStateHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSProductStateRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSReplacedetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSReplacemasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSScheduleRespository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WMSTaskrecordRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="EntityRepository\WorkSelectRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IBillReportRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDAreaRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICmdBillTypeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDCarRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDCellRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDCigaretteRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDCraneRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProductCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProductGradeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProductionLineRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProductOriginalRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProductStyleRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDProuductRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDShelfRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDUnitCategoryRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDUnitRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ICMDWarehouseRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IMESpreparePlanRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IPrintReportRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ISysBillTargetRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ISysErrorCodeRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\ISysTableStateRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IViewbillmastRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IViewCmdProductRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IViewIncacheDateRepository.cs" />
+    <Compile Include="Interfaces\IViewProduceDateRepository.cs" />
+    <Compile Include="Interfaces\IVIEWSTORAGERepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IViewWcsTaskRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWCSTaskDetailHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWCSTaskDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWCSTaskHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWCSTaskRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBalanceDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBalanceMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBillDetailHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBillDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBillMasterHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSBillMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSFormulaDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSFormulaMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSPalletDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSPalletMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSProductionDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSProductionMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSProductStateHRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSProductStateRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSReplacedetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSReplacemasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSScheduleRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWMSTaskrecordRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Interfaces\IWorkSelectRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\THOK.Common.Ef\THOK.Common.Ef.csproj">
+      <Project>{59FB8EB5-F5B8-4423-8550-A7819C855CDE}</Project>
+      <Name>THOK.Common.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\THOK.Wms.DbModel\THOK.Wms.DbModel.csproj">
+      <Project>{E243AB76-351D-4C97-BFE3-D55E0BA0DECF}</Project>
+      <Name>THOK.Wms.DbModel</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,24 @@
+﻿<script type="text/javascript">
+    //工单结束
+    function endClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $.messager.confirm('提示', '将完成当前工单,并将它移至历史表，请问是否继续?', function (r) {
+                if (r) {
+                        $.getJSON("/StockOutBill/end/?billno=" + row.BILL_NO, function (result) {
+                            if (result) {
+                                $.messager.show({
+                                    title: '提示',
+                                    msg: result.retruinfo
+                                });
+                            }
+                        });
+                }
+            });
+        }
+        else {
+            alert("未选中行");
+        }
+    }
+</script>
+
