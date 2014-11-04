@@ -68,7 +68,8 @@ namespace WMS.Controllers
         }
         public ActionResult GetUser()
         {
-            return Json(User, "text/html", JsonRequestBehavior.AllowGet);
+            //return Json(User, "text/html", JsonRequestBehavior.AllowGet);
+            return Json(new { Identity = new { User.Identity.IsAuthenticated, User.Identity.Name } }, "text", JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
