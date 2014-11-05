@@ -24,7 +24,7 @@ namespace THOK.Wms.Bll.Service
         public object Detail(int page, int rows, string ENGLISH_CODE, string USER_CODE, string GRADE_NAME, string MEMO)
         {
             IQueryable <CMD_PRODUCT_GRADE> query = ProductGradeRepository.GetQueryable();
-            var temp = query.OrderBy(i => i.GRADE_CODE).Select(i => new {i.GRADE_CODE ,i.ENGLISH_CODE ,i.USER_CODE ,i.GRADE_NAME ,i.MEMO });
+            var temp = query.OrderBy(i => i.ENGLISH_CODE).Select(i => new { i.GRADE_CODE, i.ENGLISH_CODE, i.USER_CODE, i.GRADE_NAME, i.MEMO });
             if (!string.IsNullOrEmpty(ENGLISH_CODE))
             {
                 temp = temp.Where(i => i.ENGLISH_CODE.Contains(ENGLISH_CODE));
