@@ -5,8 +5,9 @@
             $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
             var row = $('#details').datagrid('getSelected');
             if (row) {
+                //alert(row.BILL_NO);
                 $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
-                $('#SubDetails').datagrid({ url: '/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + row.BILL_NO });
+                $('#SubDetails').datagrid({ url: '/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + encodeURIComponent(row.BILL_NO) });
                 //                $('#SubDetails').datagrid('reload');
             }
             else {
