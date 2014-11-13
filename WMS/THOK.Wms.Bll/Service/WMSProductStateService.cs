@@ -407,6 +407,7 @@ namespace THOK.Wms.Bll.Service
                 i.YEARS ,
                 IN_DATE =i.IN_DATE ==null ?"":((DateTime )i.IN_DATE ).ToString ("yyyy-MM-dd HH:mm:ss"),
                 i.PRODUCT_BARCODE,
+                BARCODEID = (i.PRODUCT_BARCODE).Substring(55, 10),//条码标示符
                 i.REAL_WEIGHT,
                 i.TARGET_CODE,
                 i.STATE,

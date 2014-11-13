@@ -392,6 +392,7 @@ namespace THOK.Wms.Bll.Service
                 i.ORIGINAL_NAME,
                 CELLSTATU = i.CELLSTATU == "1" ? "可用" : "禁用",
                 i.PRODUCT_BARCODE,
+                BARCODEID = (i.PRODUCT_BARCODE).Substring(55, 10),//条码标示符
                 i.BILL_NO,
                 //BILL_DATE = i.BILL_DATE == null ? "" : ((DateTime)i.BILL_DATE).ToString("yyyy-MM-dd"),
                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
