@@ -1424,7 +1424,8 @@ namespace THOK.Wms.Bll.Service
                     CellInfo info = new CellInfo();
                     if (cell.PRODUCT_CODE  != null)
                     {
-                        info.Barcode = cell.PRODUCT_BARCODE;
+                        //info.Barcode = cell.PRODUCT_BARCODE;
+                        info.Barcode = (cell.PRODUCT_BARCODE).Substring(55, 10);//条码标示符
                         info.BILLNO = cell.BILL_NO;
                         info.GRADE = cell.CMD_PRODUCT.CMD_PRODUCT_GRADE.GRADE_NAME;
                         info.INDATE = cell.IN_DATE.ToString();
