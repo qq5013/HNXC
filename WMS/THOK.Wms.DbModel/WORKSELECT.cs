@@ -13,6 +13,7 @@ namespace THOK.Wms.DbModel
         public string STATE { get; set; }
         public string STATENAME { get; set; }
         public Nullable<System.DateTime> TASK_DATE { get; set; }
+        public Nullable<System.DateTime> FINISH_DATE { get; set; }
         public string TASKER { get; set; }
         public string IS_MIX { get; set; }
         public string MIXNAME { get; set; }

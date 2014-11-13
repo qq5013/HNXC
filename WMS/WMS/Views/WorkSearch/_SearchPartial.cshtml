@@ -3,6 +3,9 @@
          $('#STASK_DATE').datebox({
               hasDownArrow: true
           });
+          $('#FINISH_DATE').datebox({
+              hasDownArrow: true
+          });
           GetCigarette();
           GetBillType();
           GetFormula('');
@@ -87,6 +90,7 @@
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.BILL_NO = $('#SBILL_NO').val();
         queryParams.TASK_DATE = $('#STASK_DATE').datebox('getValue');
+        queryParams.FINISH_DATE = $('#FINISH_DATE').datebox('getValue');
         if ($('#SBTYPE_CODE').combogrid('getText') != null && $('#SBTYPE_CODE').combobox('getText') != "") {
             queryParams.BTYPE_CODE = $('#SBTYPE_CODE').combogrid('getValue');
         }
@@ -105,6 +109,7 @@
         $('#details').datagrid('reload');
         $('#SBILLMETHOD').combobox('clear');
         $('#STASK_DATE').datebox('clear');
+        $('#FINISH_DATE').datebox('clear');
         $('#SBTYPE_CODE').combogrid('clear');
         $('#SCIGARETTE_CODE').combogrid('clear');
         $('#SFORMULA_CODE').combogrid('clear');
@@ -140,10 +145,10 @@
 						 <td style="width:50px">配方</td>
                         <td style="width:138px"><input id="SFORMULA_CODE" style="width:125px"   class="easyui-combogrid"></td>
                       </tr>
-@*                      <tr>
-                        <td style="width:50px" align="right">条码</td>
-                        <td  colspan="3"  style="width:138px" ><input id="SPRODUCT_BARCODE" style="width: 276px; "></td>
-                      </tr>*@
+                      <tr>
+                        <td style="width:50px" align="right">作业完成时间</td>
+                        <td style="width:138px"><input id="FINISH_DATE" style="width:125px" ></td>
+                      </tr>
                     </table>
             </div>
         </div>

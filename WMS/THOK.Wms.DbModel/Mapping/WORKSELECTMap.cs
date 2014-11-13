@@ -114,6 +114,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.STATE).HasColumnName("STATE");
             this.Property(t => t.STATENAME).HasColumnName("STATENAME");
             this.Property(t => t.TASK_DATE).HasColumnName("TASK_DATE");
+            this.Property(t => t.FINISH_DATE).HasColumnName("FINISH_DATE");
             this.Property(t => t.TASKER).HasColumnName("TASKER");
             this.Property(t => t.IS_MIX).HasColumnName("IS_MIX");
             this.Property(t => t.MIXNAME).HasColumnName("MIXNAME");

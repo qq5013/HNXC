@@ -330,7 +330,7 @@ namespace THOK.Wms.Bll.Service
         }
 
        // 作业查询
-        public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string TASK_NO, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
+        public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string TASK_NO, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE, string FINISH_DATE)
         {
             IQueryable<WORKSELECT> query = WorkselectRepository.GetQueryable();
             var work = query.OrderBy(i => i.TASK_DATE).Select(i => new
@@ -346,7 +346,8 @@ namespace THOK.Wms.Bll.Service
                 i.STATE,
                 i.STATENAME ,//状态
                 i.TASK_ID ,
-                i.TASK_DATE,
+                i.TASK_DATE,//作业时间
+                i.FINISH_DATE,//作业完成时间
                 i.TASKER,
                 i.USER_NAME ,
                 i.MIXNAME,
@@ -375,6 +376,13 @@ namespace THOK.Wms.Bll.Service
                 DateTime date2 = date.AddDays(1);
                 work = work.Where(i => i.TASK_DATE.Value.CompareTo(date) >= 0);
                 work = work.Where(i => i.TASK_DATE.Value.CompareTo(date2) < 0);
+            }
+            if (!string.IsNullOrEmpty(FINISH_DATE))
+            {
+                DateTime date = DateTime.Parse(FINISH_DATE);
+                DateTime date2 = date.AddDays(1);
+                work = work.Where(i => i.FINISH_DATE.Value.CompareTo(date) >= 0);
+                work = work.Where(i => i.FINISH_DATE.Value.CompareTo(date2) < 0);
             }
             if (!string.IsNullOrEmpty(BTYPE_CODE)) {
                 work = work.Where(i => i.BTYPE_CODE == BTYPE_CODE);
@@ -406,6 +414,7 @@ namespace THOK.Wms.Bll.Service
                 i.BATCH_WEIGHT ,
                 i.TASK_ID ,
                 TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                FINISH_DATE = i.FINISH_DATE == null ? "" : ((DateTime)i.FINISH_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                 i.TASKER,
                 i.USER_NAME ,
                 i.MIXNAME,
