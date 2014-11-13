@@ -14,5 +14,7 @@ namespace THOK.Wms.Bll.Interfaces
         object GetSubDetails(int page, int rows, string BillNo, int flag);
         //批次校验
         bool CheckBill(string billno, out string outinfo);
+
+        object GetDetailsIn(int page, int rows, string p, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO, string p_2, string BILLNOFROM, string BILLNOTO);
     }
 }

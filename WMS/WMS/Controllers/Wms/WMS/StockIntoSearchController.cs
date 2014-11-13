@@ -57,7 +57,7 @@ namespace WMS.Controllers.Wms.WMS
             {
                 THOK.Common.PrintHandle.issearch = false;
             }
-            var Billmaster = BillMasterHService.GetDetails(page, rows, "1", flag,
+            var Billmaster = BillMasterHService.GetDetailsIn(page, rows, "1", flag,
                 BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO,"",BILLNOFROM ,BILLNOTO);
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
