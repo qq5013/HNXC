@@ -28,11 +28,13 @@
                     title: '提示',
                     msg: result.retruinfo
                 });
-                $('#dlg-select').datagrid('reload');
+                $('#details').datagrid('reload');
+                $('#SubDetails').datagrid('reload');
             }
         });
         $('#dlg-select').dialog('close');
-        $('#dlg-select').datagrid('reload');
+        $('#details').datagrid('reload');
+        $('#SubDetails').datagrid('reload');
         $('#CHANNEL_NO').val("请选择");
     }
 </script>

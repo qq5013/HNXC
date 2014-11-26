@@ -130,9 +130,9 @@ namespace THOK.Wms.Bll.Service
         }
 
         //出库单结束
-        public bool end(string billno, string tasker, out string error)
+        public bool end(string billno, out string error)
         {
-            string sqlstr = "begin FINISH('" + billno + "','" + tasker + "');end;";
+            string sqlstr = "begin FINISH('" + billno + "');end;";
             int result = ProductStateRepository.Exeprocedure(sqlstr, out error);
             if (result < 0)
                 return false;

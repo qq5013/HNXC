@@ -154,7 +154,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             string userName = this.GetCookieValue("userid");
             string error = "";
-            bool bResult = ProductStateService.end(billno, userName, out error);
+            bool bResult = ProductStateService.end(billno, out error);
             string msg = bResult ? "结束成功" : "结束失败" + error;
             var just = new
             {

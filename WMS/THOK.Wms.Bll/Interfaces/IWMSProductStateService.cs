@@ -16,7 +16,7 @@ namespace THOK.Wms.Bll.Interfaces
         //出库作业功能.
         bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker, out string error);
         //结束出库作业订单
-        bool end(string billno, string tasker, out string error);
+        bool end(string billno, out string error);
         //手动出库作业
         bool TaskSD(string billno,string cellstr, string tasker, out string error);
         //托盘入库作业

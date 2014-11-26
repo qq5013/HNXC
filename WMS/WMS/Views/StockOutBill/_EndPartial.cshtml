@@ -5,14 +5,17 @@
         if (row) {
             $.messager.confirm('提示', '将完成当前工单,并将它移至历史表，请问是否继续?', function (r) {
                 if (r) {
-                        $.getJSON("/StockOutBill/end/?billno=" + row.BILL_NO, function (result) {
-                            if (result) {
+                    $.getJSON("/StockOutBill/end/?billno=" + row.BILL_NO, function (json) {
+                        if (json) {
                                 $.messager.show({
                                     title: '提示',
-                                    msg: result.retruinfo
+                                    msg: json.success
                                 });
                             }
                         });
+
+                        $('#details').datagrid('reload');
+                        $('#SubDetails').datagrid('reload');
                 }
             });
         }
