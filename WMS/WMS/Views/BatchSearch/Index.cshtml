@@ -1,0 +1,56 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+            var row = $('#details').datagrid('getSelected');
+            if (row) {
+                $('#SubDetails').datagrid({ url: '/BatchSearch/GetSubDetail/?BILL_NO=' + row.BILL_NO });
+                //                $('#SubDetails').datagrid('reload');
+            }
+            else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
+    });
+
+</script>
+<div region="center" split="true" border="false">    
+    <table id="details" class="easyui-datagrid" url="/BatchSearch/Details/" border="false" singleSelect="true" pageSize="50"
+        fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true"  striped="true">
+        <thead>
+            <tr>
+                <th field="BILL_NO" width="280" >入库单号</th>
+                <th field="CIGARETTE_CODE" width="80" hidden="true">牌号编号</th>
+                <th field="CIGARETTE_NAME" width="320">牌号</th>
+                <th field="FORMULA_CODE" width="80" hidden="true">配方编号</th>
+                <th field="FORMULA_NAME" width="270" >配方</th>
+                <th field="BILL_DATE" width="220" >单据日期</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
+        fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true" striped="true">
+        <thead>
+            <tr>
+                <th field="PRODUCT_CODE" width="60" hidden="true">产品编码</th>
+                <th field="PRODUCT_NAME" width="280" >产品名称</th>
+                <th field="GRADE_CODE" width="80">等级编号</th>
+                <th field="GRADE_NAME" width="130">等级名称</th>
+                <th field="ORIGINAL_CODE" width="50" hidden="true">原产地代码</th>
+                <th field="ORIGINAL_NAME" width="130">原产地</th>
+                <th field="YEARS" width="90">年份</th>
+                <th field="REAL_WEIGHT" width="80">重量</th>
+                <th field="CELL_CODE" width="100">所在货位号</th>
+                <th field="IN_DATE" width="150" >入库时间</th>
+                <th field="IS_ACTIVE" width="80">货位状态</th>
+                <th field="IS_ACTIVE" width="80">产品状态</th>
+                <th field="BARCODEID" width="100">条码标识符</th>
+                <th field="PRODUCT_BARCODE" width="200">条码</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+

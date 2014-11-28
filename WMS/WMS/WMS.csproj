@@ -183,6 +183,7 @@
     <Compile Include="Controllers\Wms\WarehouseInfo\ShelfController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\Warehouse2Controller.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\WarehouseController.cs" />
+    <Compile Include="Controllers\Wms\WMS\BatchSearchController.cs" />
     <Compile Include="Controllers\Wms\WMS\CellStateSearchController.cs" />
     <Compile Include="Controllers\Wms\WMS\DirectProductController.cs" />
     <Compile Include="Controllers\Wms\WMS\DirectProductSearchController.cs" />
@@ -1095,6 +1096,8 @@
     <Content Include="Views\Shared\_EndPartial.cshtml" />
     <Content Include="Views\StockOutBill\_EndPartial.cshtml" />
     <Content Include="Views\StockInBill\_EndPartial.cshtml" />
+    <Content Include="Views\BatchSearch\Index.cshtml" />
+    <Content Include="Views\BatchSearch\_SearchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\Scripts\ckfinder\bin\Debug\" />
