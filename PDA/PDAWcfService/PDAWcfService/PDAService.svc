@@ -1,0 +1,1 @@
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="PDAWcfService.PDAService" CodeBehind="PDAService.svc.cs" %>
