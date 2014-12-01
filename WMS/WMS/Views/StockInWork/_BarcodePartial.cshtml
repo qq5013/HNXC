@@ -40,7 +40,7 @@
         $('#detailjson').val(barcodestr);
         try {
             $('#fm').form('submit', {
-                url: "/StockInWork/GetPdfName/?billno=" + row.BILL_NO + "&PrintCount=" + PrintCount,
+                url: "/StockInWork/GetPdfName/?billno=" + encodeURIComponent(row.BILL_NO) + "&PrintCount=" + PrintCount,
                 onSubmit: function () {
 
                 },

@@ -47,7 +47,7 @@ namespace THOK.Wms.Bll.Service
         public object GetDetailsD(int page, int rows, string CIGARETTE_NAME, string CIGARETTE_MEMO)
         {
             IQueryable<CMD_CIGARETTE> query = CMDCigaretteRepository.GetQueryable();
-            var CMDCigarettes = query.OrderBy(i => i.CIGARETTE_CODE).Select(i => new { i.CIGARETTE_CODE, i.CIGARETTE_NAME, i.CIGARETTE_MEMO, MES_STATUS=i.MES_STATUS == "2"?"启用":"禁用"});
+            var CMDCigarettes = query.Where(i => i.MES_STATUS == "2").OrderBy(i => i.CIGARETTE_NAME).Select(i => new { i.CIGARETTE_CODE, i.CIGARETTE_NAME, i.CIGARETTE_MEMO, MES_STATUS = i.MES_STATUS == "2" ? "启用" : "禁用" });
             if (!string.IsNullOrEmpty(CIGARETTE_NAME))
             {
                 CMDCigarettes = CMDCigarettes.Where(i => i.CIGARETTE_NAME.Contains(CIGARETTE_NAME));

@@ -5,7 +5,7 @@
         var row = $('#details').datagrid('getSelected');
         if (row) {
             if (row.STATE == "1"||row.STATE=="2") { //已审核状态下
-                $.getJSON("/PalletStockIn/Task/?BillNo=" + row.BILL_NO , function (json) {
+                $.getJSON("/PalletStockIn/Task/?BillNo=" + encodeURIComponent(row.BILL_NO) , function (json) {
                     if (json) {
                         $.messager.show({
                             title: '提示',

@@ -6,7 +6,7 @@
             $.messager.confirm('提示', '将取消选中批次任务,是否继续?', function (r) {
                 if (r) {
                     if (row.STATE < 4) {
-                        $.getJSON("/StockOutWork/Cancetask/?BillNo=" + row.BILL_NO, function (json) {
+                        $.getJSON("/StockOutWork/Cancetask/?BillNo=" + encodeURIComponent(row.BILL_NO), function (json) {
                             if (json) {
                                 $.messager.show({
                                     title: '提示',

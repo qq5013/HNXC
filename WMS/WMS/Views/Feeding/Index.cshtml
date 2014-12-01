@@ -6,7 +6,7 @@
             var row = $('#details').datagrid('getSelected');
             if (row) {
                 $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
-                $('#SubDetails').datagrid({ url:' /StockInBill/GetSubDetail/?billno=' + row.BILL_NO });
+                $('#SubDetails').datagrid({ url:' /StockInBill/GetSubDetail/?billno=' + encodeURIComponent(row.BILL_NO) });
             }
             else {
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });

@@ -5,7 +5,7 @@
         if (row) {
             if (row.STATE == "2") { //已审核状态下
                 $('#dlg').dialog('open').dialog('setTitle', '作业');
-                loaddetail('/StockInBill/GetSubdetail/?page=1&rows=20000&BillNo=' + row.BILL_NO)
+                loaddetail('/StockInBill/GetSubdetail/?page=1&rows=20000&BillNo=' + encodeURIComponent(row.BILL_NO))
             }
             else {
                 $.messager.confirm('提示', '该记录已' + row.STATENAME + '不可重复作业！');
@@ -73,7 +73,7 @@
             },
             onClickRow: function (rowIndex, rowData) {
                 var row = $('#details').datagrid('getSelected');
-                $('#TaskRecord').datagrid({ url: '/StockDifferWork/TaskrecordDetail/?productcode=' + rowData.PRODUCT_CODE + '&Billno=' + row.BILL_NO });
+                $('#TaskRecord').datagrid({ url: '/StockDifferWork/TaskrecordDetail/?productcode=' + rowData.PRODUCT_CODE + '&Billno=' + encodeURIComponent(row.BILL_NO) });
             }
         });
     }
@@ -119,7 +119,7 @@
                 if (r) {  //清空数据
                     var billrow = $('#inBillDetail').datagrid('getSelected');
                     var row = $('#details').datagrid('getSelected');
-                    $.getJSON("/StockDifferWork/Clearerrorcell/?Cellcode=" + cellcode + "&inBillNo=" + row.SOURCE_BILLNO + "&productcode=" + billrow.PRODUCT_CODE + "&BillNo=" + row.BILL_NO, function (json) {
+                    $.getJSON("/StockDifferWork/Clearerrorcell/?Cellcode=" + cellcode + "&inBillNo=" + row.SOURCE_BILLNO + "&productcode=" + billrow.PRODUCT_CODE + "&BillNo=" + encodeURIComponent(row.BILL_NO), function (json) {
                         if (json) {
                             if (json.success) {
                                 loadcell(index, billrow.PRODUCT_CODE);
@@ -166,7 +166,7 @@
     function Comfirmcomplete() {
         var row = $('#details').datagrid('getSelected');
         $('#fm').form('submit', {
-            url: "/StockDifferWork/Completerecoder/?BillNo=" + row.BILL_NO + "&indate=" + $('#indate' + completeindex).val(),
+            url: "/StockDifferWork/Completerecoder/?BillNo=" + encodeURIComponent(row.BILL_NO) + "&indate=" + $('#indate' + completeindex).val(),
                onSubmit: function () {
                    return $(this).form('validate');
                },
@@ -193,7 +193,7 @@
            $.messager.confirm('提示', '确认完成作业?', function (r) {
                if (r) { //修改单据状态为作业
                    var row = $('#details').datagrid('getSelected');
-                   $.getJSON("/StockDifferWork/Taskover/?BillNo=" + row.BILL_NO, function (json) {
+                   $.getJSON("/StockDifferWork/Taskover/?BillNo=" + encodeURIComponent(row.BILL_NO), function (json) {
                        if (json) {
                            $.messager.show({
                                title: '提示',

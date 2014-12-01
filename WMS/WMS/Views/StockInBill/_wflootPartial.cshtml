@@ -4,7 +4,7 @@
         var row = $('#details').datagrid('getSelected');
         if (row) {
             if (row.STATE == "3") { //已作业状态下
-                $.getJSON("/StockInBill/wfloot/?BillNo=" + row.BILL_NO, function (json) {
+                $.getJSON("/StockInBill/wfloot/?BillNo=" + encodeURIComponent(row.BILL_NO), function (json) {
                     if (json) {
                         $.messager.show({
                             title: '提示',

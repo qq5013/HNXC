@@ -5,7 +5,7 @@
         if (row) {
             $.messager.confirm('提示', '将完成当前工单,并将它移至历史表，请问是否继续?', function (r) {
                 if (r) {
-                    $.getJSON("/StockOutBill/end/?billno=" + row.BILL_NO, function (json) {
+                    $.getJSON("/StockOutBill/end/?billno=" + encodeURIComponent(row.BILL_NO), function (json) {
                         if (json) {
                                 $.messager.show({
                                     title: '提示',

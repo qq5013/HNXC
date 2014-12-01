@@ -201,7 +201,7 @@ namespace THOK.Wms.Bll.Service
             //    //THOK.Common.PrintHandle.issearch = false;
             //}
             //billmaster = billmaster.OrderByDescending(i => i.BILL_DATE  ).OrderBy(i=>i.BILL_NO ); 
-            billmaster = billmaster.OrderByDescending(i => i.BILL_DATE); 
+            billmaster = billmaster.OrderByDescending(i => i.BILL_NO); 
             int total = billmaster.Count();
             billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
             var temp = billmaster.ToArray().Select(i => new

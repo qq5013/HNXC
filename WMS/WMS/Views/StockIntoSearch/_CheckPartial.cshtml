@@ -6,7 +6,7 @@
             $.messager.confirm('提示', '将校验选中批次任务,是否继续?', function (r) {
                 if (r) {
                     if (row.STATE == 5) {
-                        $.getJSON("/StockIntoSearch/CheckBill/?BillNo=" + row.BILL_NO, function (json) {
+                        $.getJSON("/StockIntoSearch/CheckBill/?BillNo=" + encodeURIComponent(row.BILL_NO), function (json) {
                             if (json) {
 
                                 if (json.result == "true") {
