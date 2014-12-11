@@ -87,7 +87,7 @@ namespace THOK.Wms.Bll.Service
                               a.OUT_BILLNO,
                               a.CELL_CODE,
                               a.NEWCELL_CODE,
-                              BARCODEID=(a.PRODUCT_BARCODE).Substring(55,10),
+                              BARCODEID=(a.PRODUCT_BARCODE).Substring(54,10),
                               a.PRODUCT_BARCODE,
                               a.PALLET_CODE,
                               a.IS_MIX, //是否混装代码
@@ -255,7 +255,7 @@ namespace THOK.Wms.Bll.Service
                 {
                     i.BILL_NO,
                     PRODUCT_BARCODE = i.PRODUCT_BARCODE,
-                    BARCODEID=(i.PRODUCT_BARCODE).Substring(55, 10),//唯一标识符
+                    BARCODEID=(i.PRODUCT_BARCODE).Substring(54, 10),//唯一标识符
                     BILL_DATE = i.BILL_DATE.Value.ToString("yyyy-MM-dd"),
                     i.CATEGORY_NAME,
                     i.CIGARETTE_NAME,
@@ -407,7 +407,7 @@ namespace THOK.Wms.Bll.Service
                 i.YEARS ,
                 IN_DATE =i.IN_DATE ==null ?"":((DateTime )i.IN_DATE ).ToString ("yyyy-MM-dd HH:mm:ss"),
                 i.PRODUCT_BARCODE,
-                BARCODEID = (i.PRODUCT_BARCODE).Substring(55, 10),//条码标示符
+                BARCODEID = (i.PRODUCT_BARCODE).Substring(54, 10),//条码标示符
                 i.REAL_WEIGHT,
                 i.TARGET_CODE,
                 i.STATE,

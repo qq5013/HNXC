@@ -166,7 +166,8 @@ namespace THOK.Wms.Bll.Service
         }
 
         ////获取仓库中的货物信息
-        public object GetProductdetail(int page, int rows, string queryinfo,string billno)
+        //public object GetProductdetail(int page, int rows, string formula,string grade, string original,string billno)
+        public object GetProductdetail(int page, int rows, string formula, string productcode)
         {
             IQueryable <VIEW_STORAGE > storagequery = ViewstorageRepository.GetQueryable();
             //IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
@@ -191,9 +192,80 @@ namespace THOK.Wms.Bll.Service
                                  a.YEARS ,
                                  a.REAL_WEIGHT ,
                                  b.IS_MIX,
+                                 a.IN_DATE,
                                  a.BILL_NO 
                              };
-            if (!string.IsNullOrEmpty(queryinfo)) {
+
+            if (!string.IsNullOrEmpty(formula))
+            {
+                IQueryable<VIEW_BILL_MAST> mastquery = ViewbillmastRepository.GetQueryable();
+                productsql = productsql.Where(i => (from b in mastquery where b.FORMULA_CODE == formula select b.BILL_NO).Contains(i.BILL_NO));
+            }
+            //if (!string.IsNullOrEmpty(grade))
+            //{ //根据等级查询
+            //    productsql = productsql.Where(i => i.GRADE_NAME == grade);
+            //}
+            //if (!string.IsNullOrEmpty(original))
+            //{//根据原产地查询
+            //    productsql = productsql.Where(i => i.ORIGINAL_NAME == original);
+            //}
+            //if (!string.IsNullOrEmpty(billno))
+            //{
+            //    productsql = productsql.Where(i => i.BILL_NO == billno);
+            //}
+            if (!string.IsNullOrEmpty(productcode))
+            {
+                productsql = productsql.Where(i => i.PRODUCT_CODE == productcode);
+            }
+            productsql = productsql.Where(i => (from s in shelfquery join c in cranequery on s.CRANE_NO equals c.CRANE_NO select s.SHELF_CODE).Contains(i.SHELF_CODE));
+            int total = productsql.Count();
+            productsql = productsql.OrderBy(i => i.IN_DATE).Skip((page - 1) * rows).Take(rows);
+            var productsdata = productsql.ToArray ().Select(i => new
+            { 
+                i.CELL_CODE ,
+                i.PRODUCT_CODE ,
+                i.PRODUCT_NAME ,
+                i.GRADE_NAME ,
+                i.ORIGINAL_NAME ,
+                i.YEARS ,
+                i.REAL_WEIGHT ,
+                IS_MIX = i.IS_MIX == "1" ? "是" : "否",
+                i.BILL_NO 
+            });
+            return new { total, rows = productsdata };
+        }
+
+        public object GetProductdetail2(int page, int rows, string queryinfo, string billno)
+        {
+            IQueryable<VIEW_STORAGE> storagequery = ViewstorageRepository.GetQueryable();
+            //IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAILH> billdetailquery = BillDetailRepository.GetQueryable();
+            IQueryable<CMD_CRANE> cranequery = CraneRepository.GetQueryable();
+            IQueryable<CMD_SHELF> shelfquery = ShelfRepository.GetQueryable();
+
+            var productsql = from a in storagequery
+                             join b in billdetailquery on a.BILL_NO equals b.BILL_NO
+                             where a.IS_LOCK == "0" && a.PRODUCT_CODE == b.PRODUCT_CODE
+                             select new
+                             {
+                                 a.CELL_CODE,
+                                 a.SHELF_CODE,
+                                 a.PRODUCT_CODE,
+                                 a.IS_ACTIVE,
+                                 a.IS_LOCK,
+                                 a.PRODUCT_NAME,
+                                 a.GRADE_CODE,
+                                 a.GRADE_NAME,
+                                 a.ORIGINAL_CODE,
+                                 a.ORIGINAL_NAME,
+                                 a.YEARS,
+                                 a.REAL_WEIGHT,
+                                 b.IS_MIX,
+                                 a.IN_DATE,
+                                 a.BILL_NO
+                             };
+            if (!string.IsNullOrEmpty(queryinfo))
+            {
                 string[] value = queryinfo.Split(':');
                 if (!string.IsNullOrEmpty(value[0]))
                 { //根据货位号查询
@@ -215,12 +287,14 @@ namespace THOK.Wms.Bll.Service
                 if (!string.IsNullOrEmpty(value[3]))
                 { //根据等级查询
                     string grade = value[3];
-                    productsql = productsql.Where(i => i.GRADE_CODE == grade);
+                    productsql = productsql.Where(i => i.GRADE_NAME == grade);
+                    //productsql = productsql.Where(i => i.GRADE_CODE == grade);
                 }
                 if (!string.IsNullOrEmpty(value[4]))
                 {//根据原产地查询
                     string original = value[4];
-                    productsql = productsql.Where(i => i.ORIGINAL_CODE == original);
+                    productsql = productsql.Where(i => i.ORIGINAL_NAME == original);
+                    //productsql = productsql.Where(i => i.ORIGINAL_CODE == original);
                 }
                 if (!string.IsNullOrEmpty(value[5]))
                 {//根据年份查询
@@ -228,27 +302,27 @@ namespace THOK.Wms.Bll.Service
                     productsql = productsql.Where(i => i.YEARS == year);
                 }
             }
-            if (!string.IsNullOrEmpty(billno)) {
+            if (!string.IsNullOrEmpty(billno))
+            {
                 productsql = productsql.Where(i => i.BILL_NO == billno);
             }
             productsql = productsql.Where(i => (from s in shelfquery join c in cranequery on s.CRANE_NO equals c.CRANE_NO select s.SHELF_CODE).Contains(i.SHELF_CODE));
             int total = productsql.Count();
-            productsql = productsql.OrderBy(i => i.CELL_CODE).Skip((page - 1) * rows).Take(rows);
-            var productsdata = productsql.ToArray ().Select(i => new
-            { 
-                i.CELL_CODE ,
-                i.PRODUCT_CODE ,
-                i.PRODUCT_NAME ,
-                i.GRADE_NAME ,
-                i.ORIGINAL_NAME ,
-                i.YEARS ,
-                i.REAL_WEIGHT ,
-                i.IS_MIX,
-                i.BILL_NO 
+            productsql = productsql.OrderBy(i => i.IN_DATE).Skip((page - 1) * rows).Take(rows);
+            var productsdata = productsql.ToArray().Select(i => new
+            {
+                i.CELL_CODE,
+                i.PRODUCT_CODE,
+                i.PRODUCT_NAME,
+                i.GRADE_NAME,
+                i.ORIGINAL_NAME,
+                i.YEARS,
+                i.REAL_WEIGHT,
+                IS_MIX = i.IS_MIX == "1" ? "是" : "否",
+                i.BILL_NO
             });
             return new { total, rows = productsdata };
         }
-
 
         public object GetProductdetail(int page, int rows, string cigarette, string formula, string productcode)
         {
@@ -305,7 +379,7 @@ namespace THOK.Wms.Bll.Service
                 i.ORIGINAL_NAME,
                 i.YEARS,
                 i.REAL_WEIGHT,
-                i.IS_MIX,
+                IS_MIX = i.IS_MIX == "1" ? "是" : "否",
                 i.IS_MIXDESC ,
                 i.BILL_NO
             });
@@ -392,7 +466,7 @@ namespace THOK.Wms.Bll.Service
                 i.ORIGINAL_NAME,
                 CELLSTATU = i.CELLSTATU == "1" ? "可用" : "禁用",
                 i.PRODUCT_BARCODE,
-                BARCODEID = (i.PRODUCT_BARCODE).Substring(55, 10),//条码标示符
+                BARCODEID = (i.PRODUCT_BARCODE).Substring(54, 10),//条码标示符
                 i.BILL_NO,
                 //BILL_DATE = i.BILL_DATE == null ? "" : ((DateTime)i.BILL_DATE).ToString("yyyy-MM-dd"),
                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),

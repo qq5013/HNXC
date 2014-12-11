@@ -9,12 +9,17 @@
     }
 //确定按钮事件
     function Outstockcomfirm() {
+        var detail = $('#outbarcodeDetail').datagrid('getSelected');
         var bill = $('#OutstockBillDetail').datagrid('getSelected');
         var data = $('#outbarcodeDetail').datagrid('getSelections');
         if (bill) {
             $('#SCHEDULE_NO').val(bill.BILL_NO);
             $('#CIGARETTE_CODE').val(bill.CIGARETTE_CODE);
             $('#FORMULA_CODE').val(bill.FORMULA_CODE);
+            $('#GRADE_NAME').val(detail.GRADE_NAME);
+            $('#ORIGINAL_NAME').val(detail.ORIGINAL_NAME);
+            $('#YEARS').val(detail.YEARS);
+            $('#PRODUCT_CODE').val(detail.PRODUCT_CODE);
             $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
             for (var row = 0; row < data.length; row++) {
                 $('#inBillDetail').datagrid('appendRow', {

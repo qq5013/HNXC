@@ -139,7 +139,7 @@ namespace THOK.Wms.Bll.Service
                 i.ORIGINAL_NAME,
                 i.YEARS,
                 i.REAL_WEIGHT,
-                BARCODEID = (i.PRODUCT_BARCODE).Substring(55, 10),//条码标示符
+                BARCODEID = (i.PRODUCT_BARCODE).Substring(54, 10),//条码标示符
                 i.BILL_NO,
                 IN_DATE = i.IN_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.CIGARETTE_NAME,

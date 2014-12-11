@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript">
     function billQueryClick() {
-       
+
         if ($('#CIGARETTE_CODE').val() != "" && $('#FORMULA_CODE').val() != "") {
             $('#Pcigarate').combogrid('setValue', $('#CIGARETTE_CODE').val());
             $('#Pformula').combogrid('setValue', $('#FORMULA_CODE').val());
@@ -12,8 +12,7 @@
         var original = $('#Poriginal').combogrid('getValue');
         var years = $('#Pyears').combobox('getValue');
         var queryinfo = cellcode + ":" + cigarate + ":" + formula + ":" + grade + ":" + original + ":" + years;
-//        var queryinfo = cigarate + ":" + formula + ":" + grade + ":" + original + ":" + years;
-        $('#productDetail').datagrid({ url: '/Feeding/getproductdetail/?queryinfo=' + queryinfo });
+        $('#productDetail').datagrid({ url: '/Feeding/getproductdetail2/?queryinfo=' + queryinfo });
         $("#productDetail").datagrid('reload');
     }
     //牌号
@@ -37,7 +36,7 @@
             onSelect: function (index, data) {
                 $('#Pformula').combogrid('clear')
                 PGetFormula(data.CIGARETTE_CODE);
-//                $('#Pformula').combogrid('clear');
+                //                $('#Pformula').combogrid('clear');
             }
         });
     }
@@ -61,41 +60,22 @@
                      { field: 'CIGARETTE_NAME', title: '牌号', align: 'left', width: 40 },
                      { field: 'BATCH_WEIGHT', title: '批次重量', align: 'left', width: 30 },
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 15 }
-                ]],
-            onSelect: function (index, data) {
-                setgradecomb(data.FORMULA_CODE);
-                $('#Pgrade').combogrid('clear');
-            }
-        });
-    }
-    //获取原产地
-    function setoriginalcomb() {
-        $('#Poriginal').combogrid({
-            required: false,
-            width: 125,
-            panelWidth: 300,
-            url: '/ProductOriginal/Details/?page=1&rows=1000',
-            idField: 'ORIGINAL_CODE',
-            textField: 'ORIGINAL_NAME',
-            mode: 'local',
-            editable: true,
-            fitColumns: true,
-            columns: [[
-					{ field: 'ORIGINAL_CODE', title: '产地代码', hidden: true, width: 30 },
-					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
-                    { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
-					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
-				]]
+                ]]
+//            onSelect: function (index, data) {
+//               // $('#Pgrade').combogrid('clear');
+//                setgradecomb(data.FORMULA_CODE);
+//            }
         });
     }
     //获取产品等级
     function setgradecomb(formulacode) {
         $('#Pgrade').combogrid({
             required: false,
+            disabled: false,
             width: 125,
             panelWidth: 300,
             url: '/ProductGrade/detailbyformul/?page=1&rows=1000&formula=' + formulacode,
-            idField: 'GRADE_CODE',
+            idField: 'GRADE_NAME',
             textField: 'GRADE_NAME',
             mode: 'local',
             editable: true,
@@ -109,6 +89,27 @@
 				]]
         });
     }
+    //获取原产地
+    function setoriginalcomb() {
+        $('#Poriginal').combogrid({
+            required: false,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductOriginal/Details/?page=1&rows=1000',
+            idField: 'ORIGINAL_NAME',
+            textField: 'ORIGINAL_NAME',
+            mode: 'local',
+            editable: true,
+            fitColumns: true,
+            columns: [[
+					{ field: 'ORIGINAL_CODE', title: '产地代码', hidden: true, width: 30 },
+					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
+                    { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]]
+        });
+    }
+
     //设置年份  2000--3000
     function SetYear() {
         var years = [];
@@ -139,30 +140,30 @@
         $('#' + stockinbill).val(data.BILL_NO);
         $('#' + cellid).val(data.CELL_CODE);
         if (data) {
-//         $(
-//            var editsubdetail = $('#inBillDetail').datagrid('getSelected');
-////            for (var row = 0; row < data.length; row++) {
-//            $('#inBillDetail').datagrid('updateRow',
-//                 {
-//                     index: $('#inBillDetail').datagrid('getRowIndex', editsubdetail),
-//                     row: {
-//                         ITEM_NO: editsubdetail.ITEM_NO,
-//                         CELL_CODE: data.CELL_CODE,
-//                         PRODUCT_CODE: editsubdetail.PRODUCT_CODE,
-//                         PRODUCT_NAME: editsubdetail.PRODUCT_NAME,
-//                         REAL_WEIGHT: editsubdetail.REAL_WEIGHT,
-//                         GRADE_NAME: editsubdetail.GRADE_NAME,
-//                         YEARS: editsubdetail.YEARS,
-//                         ORIGINAL_NAME: editsubdetail.ORIGINAL_NAME,
-//                         PACKAGE_COUNT: editsubdetail.PACKAGE_COUNT,
-//                         IS_MIX: editsubdetail.IS_MIX,
-//                         FPRODUCT_CODE: data.BILL_NO, //所属入库批次
-//                         INITIAL_BARCODE: editsubdetail.INITIAL_BARCODE
-//                     }
-//                 });
-//                 $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
-//                 $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
-////            }
+            //         $(
+            //            var editsubdetail = $('#inBillDetail').datagrid('getSelected');
+            ////            for (var row = 0; row < data.length; row++) {
+            //            $('#inBillDetail').datagrid('updateRow',
+            //                 {
+            //                     index: $('#inBillDetail').datagrid('getRowIndex', editsubdetail),
+            //                     row: {
+            //                         ITEM_NO: editsubdetail.ITEM_NO,
+            //                         CELL_CODE: data.CELL_CODE,
+            //                         PRODUCT_CODE: editsubdetail.PRODUCT_CODE,
+            //                         PRODUCT_NAME: editsubdetail.PRODUCT_NAME,
+            //                         REAL_WEIGHT: editsubdetail.REAL_WEIGHT,
+            //                         GRADE_NAME: editsubdetail.GRADE_NAME,
+            //                         YEARS: editsubdetail.YEARS,
+            //                         ORIGINAL_NAME: editsubdetail.ORIGINAL_NAME,
+            //                         PACKAGE_COUNT: editsubdetail.PACKAGE_COUNT,
+            //                         IS_MIX: editsubdetail.IS_MIX,
+            //                         FPRODUCT_CODE: data.BILL_NO, //所属入库批次
+            //                         INITIAL_BARCODE: editsubdetail.INITIAL_BARCODE
+            //                     }
+            //                 });
+            //                 $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
+            //                 $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
+            ////            }
 
         }
         $('#productData').dialog('close');
@@ -173,29 +174,28 @@
     padding: 0px 0px" closed="true" buttons="#dlgProduct-buttons">
     <div split="true" border="false" style="width: 966px; height: 430px">
         <table id="productDetail" class="easyui-datagrid" border="false" toolbar="#pbtn-query"
-            singleselect="true"  fit="true" fitcolumns="true" pagination="true" rownumbers="true" pageSize="50">
+            singleselect="true"  fit="true" fitcolumns="false" pagination="true" rownumbers="true" pageSize="50">
             <thead>
                 <tr>
-                
-                    <th field="CELL_CODE" width="80">货位号</th>
-                    <th field="PRODUCT_CODE" width="100">
+                    <th field="BILL_NO">入库批次</th>
+                    <th field="CELL_CODE" width="65">货位号</th>
+                    <th field="PRODUCT_CODE" width="155">
                         产品编码
                     </th>
-                    <th field="PRODUCT_NAME" width="150">
+                    <th field="PRODUCT_NAME" width="250">
                         产品名称
                     </th>
-                      <th field="GRADE_NAME" width="80">
+                      <th field="GRADE_NAME" width="100">
                         等级
                     </th>
                     <th field="ORIGINAL_NAME" width="100">
                         原产地
                     </th>
-                    <th field="YEARS" width="80">
+                    <th field="YEARS" width="60">
                         年份
                     </th>
                      <th field="REAL_WEIGHT" >重量</th>
                      <th field="IS_MIX">是否混装</th>
-                     <th field="BILL_NO">入库批次</th>
 @*                    <th field="STYLE" width="60">
                         形态
                     </th>
@@ -218,19 +218,18 @@
 <div id="pbtn-query">
 <table>
 <tr>
-        @*<td>货位:</td>
-        <td><input id="cellcode"  style="width: 80px;"/></td>*@
-
+        <td>货位:</td>
+        <td><input id="cellcode" type="text"  style="width: 80px;"/></td>
         <td>牌号:</td>
-        <td><input id="Pcigarate" class="easyui-combogrid" style="width: 135px;"/></td>
+        <td><input id="Pcigarate" class="easyui-combogrid" type="text" style="width: 135px;"/></td>
         <td>配方:</td>
-        <td><input id="Pformula" class="easyui-combogrid" style="width: 135px;"/></td>
-        @*<td>等级:</td>
-        <td><input id="Pgrade" class="easyui-combogrid" style="width: 80px;"/></td>*@
+        <td><input id="Pformula" class="easyui-combogrid" type="text" style="width: 135px;"/></td>
+        <td>等级:</td>
+        <td><input id="Pgrade" class="easyui-combogrid" type="text" style="width: 80px;"/></td>
         <td>原产地:</td>
-        <td><input id="Poriginal" class="easyui-combogrid" style="width: 80px;"/></td>
+        <td><input id="Poriginal" class="easyui-combogrid" type="text" style="width: 80px;"/></td>
         <td>年份:</td>
-        <td><input id="Pyears" class="easyui-combobox" style="width: 80px;"/></td>
+        <td><input id="Pyears" class="easyui-combobox" type="text" style="width: 80px;"/></td>
           <td>
  <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="billQueryClick()" id="billQuery">查询</a>
  </td>

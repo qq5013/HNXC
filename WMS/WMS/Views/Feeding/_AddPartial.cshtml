@@ -100,13 +100,13 @@
     }
     //明细中的添加按钮的事件
     function addBillDetailClick() {
-//        var Rows = $('#inBillDetail').datagrid('getData');
+        //        var Rows = $('#inBillDetail').datagrid('getData');
         //        billselect();
-//        var outstock = $('#SCHEDULE_NO').val();
-//        if (outstock == null || outstock == "" || outstock == "null") {
-//            alert("请先选择出库批次");
-//        }
-//        else
+        //        var outstock = $('#SCHEDULE_NO').val();
+        //        if (outstock == null || outstock == "" || outstock == "null") {
+        //            alert("请先选择出库批次");
+        //        }
+        //        else
         $('#productData').dialog('open').dialog('setTitle', '选择原料');
     }
     //删除明细
@@ -135,6 +135,7 @@
         $('#OutstockBillData').dialog('open').dialog('setTitle', '选择出库批次');
         $('#OutstockBillDetail').datagrid('loadData', { total: 0, rows: [] });
         $('#OutstockBillDetail').datagrid({ url: '/Feeding/GetOutstockBill/?page=1&rows=30' });
+        $("#outbarcodeDetail").datagrid('reload');
     }
     //明细加载
     function loaddetail(url) {
@@ -157,7 +158,7 @@
                                { field: 'ORIGINAL_NAME', width: 50, title: '原产地' },
                                 { field: 'YEARS', width: 50, title: '年份' },
                                { field: 'REAL_WEIGHT', width: 60, title: '实际重量' },
-                               { field: 'PACKAGE_COUNT', width: 50, title: '包数'},
+                               { field: 'PACKAGE_COUNT', width: 50, title: '包数' },
             //                               { field: 'IS_MIXDESC', width: 50, title: '是否混装', hidden: true },
                                {field: 'IS_MIX', width: 50, title: '是否混装', hidden: true },
                                { field: 'FPRODUCT_CODE', width: 120, title: '所属入库批次',
@@ -172,7 +173,8 @@
                                        else {
                                            return value;
                                        }
-                                   } },
+                                   } 
+                               },
                                { field: 'CELL_CODE', width: 160, title: '货位号',
                                    formatter: function (value, row, index) {
                                        if (clickbt != "delete") {
@@ -202,8 +204,15 @@
         cellid = obj.parentNode.childNodes.item(0).id;
         stockinbill = "instock" + cellid.replace("initi", "");
         $('#productData').dialog('open').dialog('setTitle', '选择原料');
-//        $('#outbarcodeData').dialog('open').dialog('setTitle', '选择被补条码');
-
+        $('#productDetail').datagrid('loadData', { total: 0, rows: [] });
+//        $('#productDetail').datagrid({ url: '/Feeding/getproductdetail/?formula=' + $('#FORMULA_CODE').val() + '&grade=' + $('#GRADE_NAME').val() + '&original=' + $('#ORIGINAL_NAME').val() });
+        $('#productDetail').datagrid({ url: '/Feeding/getproductdetail/?formula=' + $('#FORMULA_CODE').val() + '&productcode=' + $('#PRODUCT_CODE').val() });
+        $('#Pcigarate').combogrid('setValue', $('#CIGARETTE_CODE').val());
+        $('#Pformula').combogrid('setValue', $('#FORMULA_CODE').val());
+        $('#Pgrade').combogrid('setValue', $('#GRADE_NAME').val());
+        $('#Poriginal').combogrid('setValue', $('#ORIGINAL_NAME').val());
+        $('#Pyears').combobox('setValue', $('#YEARS').val());
+//       $("input[type=text]").attr("value", "");
     }
     function save() {
         var changesRows = {
@@ -238,13 +247,13 @@
         }
         if (iscoderepeat) { return; }
         if (clickbt == "add") {
-//            url = '/Feeding/Add/?prefix=FD&detail=' + JSON.stringify(changesRows.inserted);
+            //            url = '/Feeding/Add/?prefix=FD&detail=' + JSON.stringify(changesRows.inserted);
             url = '/Feeding/Add/?prefix=FD';
             var detailval = JSON.stringify(changesRows.inserted);
             $('#detailjson').val(detailval);
         }
         if (clickbt == "edit") {
-//            url = '/Feeding/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+            //            url = '/Feeding/Edit/?detail=' + JSON.stringify(changesRows.inserted);
             url = '/Feeding/Edit';
             var detailval = JSON.stringify(changesRows.inserted);
             $('#detailjson').val(detailval);
@@ -336,6 +345,10 @@
                         <input name="BILL_METHOD" id="BILL_METHOD"  value="0" style="display :none " />
                         <input name="CIGARETTE_CODE" id="CIGARETTE_CODE" style="display:none" />
                         <input name="FORMULA_CODE" id="FORMULA_CODE" style="display:none"/>
+                        <input name="GRADE_NAME" id="GRADE_NAME" style="display:none"/>
+                        <input name="ORIGINAL_NAME" id="ORIGINAL_NAME" style="display:none"/>
+                        <input name="YEARS" id="YEARS" style="display:none"/>
+                        <input name="PRODUCT_CODE" id="PRODUCT_CODE" style="display:none"/>
                      </td>
                 </tr>
                 <tr>
@@ -369,7 +382,7 @@
 	    </form>
     </div>
     <div border="false" class="formula_editbg"> 
-	    @*<a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>*@
+	   @* <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>*@
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
 @*        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>*@
         

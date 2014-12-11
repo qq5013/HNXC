@@ -92,9 +92,19 @@ namespace WMS.Controllers.Wms.WMS
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取仓库中的货物信息
-        public ActionResult getproductdetail(int page, int rows, string queryinfo, string BillNo)
+        public ActionResult getproductdetail(int page, int rows, string formula, string productcode)
         {
-            var products = viewstorageService.GetProductdetail(page, rows, queryinfo,BillNo);
+            var products = viewstorageService.GetProductdetail(page, rows, formula, productcode);
+            return Json(products, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        //public ActionResult getproductdetail(int page, int rows, string formula,string grade,string original,string billno)
+        //{
+        //    var products = viewstorageService.GetProductdetail(page, rows, formula, grade, original,billno);
+        //    return Json(products, "text/html", JsonRequestBehavior.AllowGet);
+        //}
+        public ActionResult getproductdetail2(int page, int rows, string queryinfo, string billno)
+        {
+            var products = viewstorageService.GetProductdetail2(page, rows, queryinfo, billno);
             return Json(products, "text/html", JsonRequestBehavior.AllowGet);
         }
         //编辑
