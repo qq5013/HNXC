@@ -79,5 +79,10 @@ namespace THOK.Wms.Bll.Interfaces
         //根据批次号，录入到平库
         bool Wfloot(string billno, out string error);
 
+        //紧急补料锁定货位
+        //object Lock(string BillNo);
+        bool Lock(string BillNo);
+        //紧急补料解锁货位
+        bool Unlock(string BillNo);
     }
 }

@@ -13,8 +13,11 @@
                                         title: '成功',
                                         msg: result.msg
                                     });
+                                    $.getJSON("/Feeding/Lock/?BillNo=" + encodeURIComponent(row.BILL_NO),function (result) {
                                     rowindex = $('#details').datagrid('getRowIndex', row);
                                     $('#details').datagrid('reload');
+                                    })
+                                    
 //                                    $('#SubDetails').datagrid('reload');
                                 } else {
                                     $.messager.show({

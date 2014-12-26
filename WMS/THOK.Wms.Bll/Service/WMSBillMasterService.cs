@@ -5,7 +5,7 @@ using System.Text;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
 using Microsoft.Practices.Unity;
-using  THOK.Wms.Dal.Interfaces;
+using THOK.Wms.Dal.Interfaces;
 using System.Data;
 using THOK.Wms.Bll.Models;
 using THOK.Authority.Dal.Interfaces;
@@ -13,7 +13,7 @@ using THOK.Authority.DbModel;
 
 namespace THOK.Wms.Bll.Service
 {
-    class WMSBillMasterService:ServiceBase<WMS_BILL_MASTER>,IWMSBillMasterService
+    class WMSBillMasterService : ServiceBase<WMS_BILL_MASTER>, IWMSBillMasterService
     {
         protected override Type LogPrefix
         {
@@ -53,50 +53,53 @@ namespace THOK.Wms.Bll.Service
         public ICMDShelfRepository ShelfRepository { get; set; }
         public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO, string LINENO)
         {
-            IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var billmaster = from a in billquery
                              join b in statequery on a.STATUS equals b.STATE
                              join c in statequery on a.STATE equals c.STATE
                              join d in statequery on a.BILL_METHOD equals d.STATE
-                             join e in userquery on a.OPERATER equals e.USER_ID 
-                             join f in userquery on a.CHECKER equals f.USER_ID  into fg from f in fg.DefaultIfEmpty ()
-                             join g in userquery on a.TASKER equals g.USER_ID into hg from g in hg.DefaultIfEmpty ()
+                             join e in userquery on a.OPERATER equals e.USER_ID
+                             join f in userquery on a.CHECKER equals f.USER_ID into fg
+                             from f in fg.DefaultIfEmpty()
+                             join g in userquery on a.TASKER equals g.USER_ID into hg
+                             from g in hg.DefaultIfEmpty()
                              where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
-                             && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtype 
-                             select new {
-                                  a.BILL_NO ,
-                                  a.BILL_DATE ,
-                                  a.BTYPE_CODE , //单据类型代码
-                                  a.CMD_BILL_TYPE .BTYPE_NAME,  //单据类型名称
-                                  a.SCHEDULE_NO,
-                                  a.WAREHOUSE_CODE ,
-                                  a.CMD_WAREHOUSE .WAREHOUSE_NAME,
-                                  a.SYS_BILL_TARGET .TARGET_NAME , //目标位置名
-                                  a.TARGET_CODE , //目标位置代码
-                                  a.STATUS ,//单据来源代号
-                                 STATUSNAME =  b.STATE_DESC ,//单据来源描述,手动,系统输入
-                                  a.STATE ,//单据状态代号
-                                  STATENAME= c.STATE_DESC ,//单据状态描述
-                                  a.CIGARETTE_CODE,
-                                  a.CMD_CIGARETTE .CIGARETTE_NAME ,//牌号名称
-                                  a.FORMULA_CODE ,
-                                  a.WMS_FORMULA_MASTER .FORMULA_NAME , //配方名称
-                                  a.BATCH_WEIGHT ,
-                                  a.SOURCE_BILLNO,
-                                  OPERATER =e.USER_NAME ,
-                                  a.OPERATE_DATE ,
-                                  CHECKER=f.USER_NAME  ,
-                                  a.CHECK_DATE ,
-                                  TASKER =g.USER_NAME ,
-                                  a.TASK_DATE ,
-                                  a.BILL_METHOD ,//单据方式代码
-                                 BILLMETHODNAME= d.STATE_DESC ,//单据方式描述
-                                  a.SCHEDULE_ITEMNO ,
-                                  a.BATCH_NO ,//来源的批次号
-                                  a.LINE_NO ,//制丝线代码
-                                  a.CMD_PRODUCTION_LINE .LINE_NAME //制丝线名
+                             && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtype
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.BILL_DATE,
+                                 a.BTYPE_CODE, //单据类型代码
+                                 a.CMD_BILL_TYPE.BTYPE_NAME,  //单据类型名称
+                                 a.SCHEDULE_NO,
+                                 a.WAREHOUSE_CODE,
+                                 a.CMD_WAREHOUSE.WAREHOUSE_NAME,
+                                 a.SYS_BILL_TARGET.TARGET_NAME, //目标位置名
+                                 a.TARGET_CODE, //目标位置代码
+                                 a.STATUS,//单据来源代号
+                                 STATUSNAME = b.STATE_DESC,//单据来源描述,手动,系统输入
+                                 a.STATE,//单据状态代号
+                                 STATENAME = c.STATE_DESC,//单据状态描述
+                                 a.CIGARETTE_CODE,
+                                 a.CMD_CIGARETTE.CIGARETTE_NAME,//牌号名称
+                                 a.FORMULA_CODE,
+                                 a.WMS_FORMULA_MASTER.FORMULA_NAME, //配方名称
+                                 a.BATCH_WEIGHT,
+                                 a.SOURCE_BILLNO,
+                                 OPERATER = e.USER_NAME,
+                                 a.OPERATE_DATE,
+                                 CHECKER = f.USER_NAME,
+                                 a.CHECK_DATE,
+                                 TASKER = g.USER_NAME,
+                                 a.TASK_DATE,
+                                 a.BILL_METHOD,//单据方式代码
+                                 BILLMETHODNAME = d.STATE_DESC,//单据方式描述
+                                 a.SCHEDULE_ITEMNO,
+                                 a.BATCH_NO,//来源的批次号
+                                 a.LINE_NO,//制丝线代码
+                                 a.CMD_PRODUCTION_LINE.LINE_NAME //制丝线名
                              };
             if (!string.IsNullOrEmpty(BILL_NO))
             {
@@ -153,21 +156,26 @@ namespace THOK.Wms.Bll.Service
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt) >= 0);
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
-            if (!string.IsNullOrEmpty(STATUS)) {
+            if (!string.IsNullOrEmpty(STATUS))
+            {
                 billmaster = billmaster.Where(i => i.STATUS == STATUS);
             }
-            if (!string.IsNullOrEmpty(BILL_DATEStar)) {
+            if (!string.IsNullOrEmpty(BILL_DATEStar))
+            {
                 DateTime datestare = DateTime.Parse(BILL_DATEStar);
                 billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(datestare) >= 0);
             }
-            if (!string.IsNullOrEmpty(BILL_DATEEND)) {
+            if (!string.IsNullOrEmpty(BILL_DATEEND))
+            {
                 DateTime dateend = DateTime.Parse(BILL_DATEEND);
                 billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
             }
-            if (!string.IsNullOrEmpty(SOURCE_BILLNO)) {
+            if (!string.IsNullOrEmpty(SOURCE_BILLNO))
+            {
                 billmaster = billmaster.Where(i => i.SOURCE_BILLNO.Contains(SOURCE_BILLNO));
             }
-            if (!string.IsNullOrEmpty(LINENO)) {
+            if (!string.IsNullOrEmpty(LINENO))
+            {
                 billmaster = billmaster.Where(i => i.LINE_NO == LINENO);
             }
             if (flag == "2")
@@ -187,10 +195,12 @@ namespace THOK.Wms.Bll.Service
                 {//紧急补料单
                     billmaster = billmaster.Where(i => i.BTYPE_CODE == "005");
                 }
-                if (flag == "3") {//倒库单
+                if (flag == "3")
+                {//倒库单
                     billmaster = billmaster.Where(i => i.BTYPE_CODE == "006");
                 }
-                if (billtype == "2"&&flag!="4") { //过滤掉出库单中的紧急不料单
+                if (billtype == "2" && flag != "4")
+                { //过滤掉出库单中的紧急不料单
                     billmaster = billmaster.Where(i => i.BTYPE_CODE != "005");
                 }
 
@@ -201,13 +211,13 @@ namespace THOK.Wms.Bll.Service
             //    //THOK.Common.PrintHandle.issearch = false;
             //}
             //billmaster = billmaster.OrderByDescending(i => i.BILL_DATE  ).OrderBy(i=>i.BILL_NO ); 
-            billmaster = billmaster.OrderByDescending(i => i.BILL_NO); 
+            billmaster = billmaster.OrderByDescending(i => i.BILL_NO);
             int total = billmaster.Count();
             billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
             var temp = billmaster.ToArray().Select(i => new
             {
                 i.BILL_NO,
-                BILL_DATE = i.BILL_DATE==null ? "":((DateTime)i.BILL_DATE).ToString("yyyy-MM-dd"),
+                BILL_DATE = i.BILL_DATE == null ? "" : ((DateTime)i.BILL_DATE).ToString("yyyy-MM-dd"),
                 i.BTYPE_CODE,
                 i.BTYPE_NAME,
                 i.SCHEDULE_NO,
@@ -234,48 +244,51 @@ namespace THOK.Wms.Bll.Service
                 i.BILL_METHOD,
                 i.BILLMETHODNAME,
                 i.SCHEDULE_ITEMNO,
-                i.BATCH_NO ,
+                i.BATCH_NO,
                 i.LINE_NO,
                 i.LINE_NAME
             });
-            return new { total, rows = temp.ToArray()};
+            return new { total, rows = temp.ToArray() };
         }
         //获取单据明细
-        public object GetSubDetails(int page, int rows, string BillNo, int  flag)
+        public object GetSubDetails(int page, int rows, string BillNo, int flag)
         {
-            IQueryable <WMS_BILL_DETAIL > detailquery = BillDetailRepository.GetQueryable();
-           // IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAIL> detailquery = BillDetailRepository.GetQueryable();
+            // IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
-            var billdetail =from a in detailquery
-                             join b in statequery on a.IS_MIX equals b.STATE 
+            var billdetail = from a in detailquery
+                             join b in statequery on a.IS_MIX equals b.STATE
                              join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                              where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
-                             select new { 
-                                 a.ITEM_NO ,
-                                 a.BILL_NO ,
+                             select new
+                             {
+                                 a.ITEM_NO,
+                                 a.FORDER,
+                                 a.BILL_NO,
                                  a.PRODUCT_CODE,
-                                 c.PRODUCT_NAME ,
+                                 c.PRODUCT_NAME,
                                  c.YEARS,
                                  c.CMD_PRODUCT_GRADE.GRADE_NAME,
                                  c.CMD_PRODUCT_STYLE.STYLE_NAME,
                                  c.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
                                  c.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
-                                 a.WEIGHT ,
-                                 a.REAL_WEIGHT ,
-                                 a.PACKAGE_COUNT ,
-                                 a.NC_COUNT ,
-                                 TOTAL_WEIGHT=a.PACKAGE_COUNT*a .REAL_WEIGHT,
+                                 a.WEIGHT,
+                                 a.REAL_WEIGHT,
+                                 a.PACKAGE_COUNT,
+                                 a.NC_COUNT,
+                                 TOTAL_WEIGHT = a.PACKAGE_COUNT * a.REAL_WEIGHT,
                                  a.IS_MIX,
-                                 IS_MIXDESC=b .STATE_DESC,
-                                 a.CELL_CODE ,
-                                 a.INITIAL_BARCODE ,
+                                 IS_MIXDESC = b.STATE_DESC,
+                                 a.CELL_CODE,
+                                 a.INITIAL_BARCODE,
                                  a.FPRODUCT_CODE
                              };
-            if (flag == 1) { //获取混装产品的信息.
+            if (flag == 1)
+            { //获取混装产品的信息.
                 billdetail = billdetail.Where(i => i.WEIGHT != i.REAL_WEIGHT);
             }
-            billdetail = billdetail.Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO);
+            billdetail = billdetail.Where(i => i.BILL_NO == BillNo).OrderBy(i => i.FORDER);
             int total = billdetail.Count();
             billdetail = billdetail.Skip((page - 1) * rows).Take(rows);
             try
@@ -289,17 +302,41 @@ namespace THOK.Wms.Bll.Service
         //审核
         public bool Audit(string checker, string BillNo)
         {
-            var billquery = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO  == BillNo );
+            var billquery = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
             if (billquery != null)
             {
                 billquery.CHECK_DATE = DateTime.Now;
                 billquery.CHECKER = checker;
                 billquery.STATE = "2";
-               int result= BillMasterRepository.SaveChanges();
-               if (result == -1) return false;
+                int result = BillMasterRepository.SaveChanges();
+                if (result == -1) return false;
             }
             else
                 return false;
+            return true;
+        }
+        //紧急补料锁定货位
+        public bool Lock(string BillNo)
+        {
+            IQueryable<WMS_BILL_DETAIL> detail = BillDetailRepository.GetQueryable().Where(a => a.BILL_NO == BillNo);
+
+            foreach (var item in detail)
+            {
+                CMD_CELL cell = cellRepository.GetQueryable().FirstOrDefault(a => a.CELL_CODE == item.CELL_CODE);
+
+                if (cell != null)
+                {
+                    try
+                    {
+                        cell.IS_LOCK = "1";
+                        cellRepository.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 
@@ -309,7 +346,7 @@ namespace THOK.Wms.Bll.Service
             var billquery = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
             if (billquery != null)
             {
-                billquery.CHECK_DATE = null ;
+                billquery.CHECK_DATE = null;
                 billquery.CHECKER = "";
                 billquery.STATE = "1";
                 BillMasterRepository.SaveChanges();
@@ -319,6 +356,30 @@ namespace THOK.Wms.Bll.Service
             return true;
         }
 
+        //紧急补料解锁货位
+        public bool Unlock(string BillNo)
+        {
+            IQueryable<WMS_BILL_DETAIL> detail = BillDetailRepository.GetQueryable().Where(a => a.BILL_NO == BillNo);
+
+            foreach (var item in detail)
+            {
+                CMD_CELL cell = cellRepository.GetQueryable().FirstOrDefault(a => a.CELL_CODE == item.CELL_CODE);
+
+                if (cell != null)
+                {
+                    try
+                    {
+                        cell.IS_LOCK = "0";
+                        cellRepository.SaveChanges();
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
 
         //获取单据编号
         public object GetBillNo(string userName, DateTime dt, string BILL_NO, string prefix)
@@ -342,7 +403,7 @@ namespace THOK.Wms.Bll.Service
             try
             {
                 //mast.BILL_NO = BillMasterRepository.GetNewID(prefix , mast.BILL_DATE , mast.BILL_NO);
-                
+
                 mast.OPERATE_DATE = DateTime.Now;
                 //mast.BILL_DATE = DateTime.Now;
                 mast.STATE = "1"; //默认保存状态
@@ -351,24 +412,24 @@ namespace THOK.Wms.Bll.Service
                 BillMasterRepository.Add(mast);
 
                 //DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ());
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
-                    
+
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
-                    subdetail.BILL_NO  = mast.BILL_NO ;
+                    subdetail.BILL_NO = mast.BILL_NO;
                     subdetail.IS_MIX = "0";
                     subdetail.FPRODUCT_CODE = "";
                     BillDetailRepository.Add(subdetail);
                     serial++;
                 }
 
-              int brs=  BillMasterRepository.SaveChanges();
-              if (brs == -1) rejust = false;
-              else
-                  rejust = true;
+                int brs = BillMasterRepository.SaveChanges();
+                if (brs == -1) rejust = false;
+                else
+                    rejust = true;
             }
             catch (Exception ex)
             {
@@ -380,27 +441,28 @@ namespace THOK.Wms.Bll.Service
         //批次入库时,载入配方.
         public object LoadFormulaDetail(int page, int rows, string Formulacode, decimal BATCH_WEIGHT, string Module)
         {
-            int serial=1;
+            int serial = 1;
             IQueryable<WMS_FORMULA_DETAIL> formuladetail = FormulaDetailRepository.GetQueryable();
             var items = formuladetail.Where(i => i.FORMULA_CODE == Formulacode);
-            if (!string.IsNullOrEmpty(Module)) {
+            if (!string.IsNullOrEmpty(Module))
+            {
                 items = formuladetail.Where(i => i.MODULES == Module);
             }
             List<FormulaDetail> list = new List<FormulaDetail>();
             foreach (WMS_FORMULA_DETAIL formula in items)
             {
                 FormulaDetail item = new FormulaDetail();
-               
-                item.ITEM_NO = serial ;
+
+                item.ITEM_NO = serial;
                 item.FORDER = formula.FORDER;
                 item.PRODUCT_CODE = formula.PRODUCT_CODE;
-                item .GRADE_NAME =formula .CMD_PRODUCT .CMD_PRODUCT_GRADE .GRADE_NAME;
+                item.GRADE_NAME = formula.CMD_PRODUCT.CMD_PRODUCT_GRADE.GRADE_NAME;
                 item.ORIGINAL_NAME = formula.CMD_PRODUCT.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME;
                 item.YEARS = formula.CMD_PRODUCT.YEARS;
                 item.REAL_WEIGHT = formula.CMD_PRODUCT.WEIGHT;
                 item.WEIGHT = formula.CMD_PRODUCT.WEIGHT;
-                item.PRODUCT_NAME = formula.CMD_PRODUCT.PRODUCT_NAME ;
-                item.PACKAGE_COUNT =(int ) (formula.WEIGHT / formula.CMD_PRODUCT.WEIGHT);
+                item.PRODUCT_NAME = formula.CMD_PRODUCT.PRODUCT_NAME;
+                item.PACKAGE_COUNT = (int)(formula.WEIGHT / formula.CMD_PRODUCT.WEIGHT);
                 //item.PACKAGE_COUNT = (int)(((formula.PERCENT * BATCH_WEIGHT) / 100) / formula.CMD_PRODUCT.WEIGHT);
                 item.TOTAL_WEIGHT = item.REAL_WEIGHT * item.PACKAGE_COUNT;
                 item.IS_MIX = "0";
@@ -415,7 +477,7 @@ namespace THOK.Wms.Bll.Service
                     subitem.FORDER = formula.FORDER;
                     subitem.PRODUCT_CODE = formula.PRODUCT_CODE;
                     subitem.PRODUCT_NAME = formula.CMD_PRODUCT.PRODUCT_NAME;
-                    subitem.REAL_WEIGHT  = lastweight;
+                    subitem.REAL_WEIGHT = lastweight;
                     subitem.WEIGHT = formula.CMD_PRODUCT.WEIGHT;
                     subitem.PACKAGE_COUNT = 1;
                     subitem.TOTAL_WEIGHT = lastweight;
@@ -430,10 +492,10 @@ namespace THOK.Wms.Bll.Service
                 serial++;
             }
 
-            var temp = list.OrderBy(i => i.FORDER ).Select(i => i);
+            var temp = list.OrderBy(i => i.FORDER).Select(i => i);
             int total = temp.Count();
             //temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray () };
+            return new { total, rows = temp.ToArray() };
         }
 
         //修改
@@ -448,7 +510,7 @@ namespace THOK.Wms.Bll.Service
                 billmast.CIGARETTE_CODE = mast.CIGARETTE_CODE;
                 billmast.FORMULA_CODE = mast.FORMULA_CODE;
                 billmast.BATCH_WEIGHT = mast.BATCH_WEIGHT;
-                billmast.LINE_NO = mast.LINE_NO=="null"?"":mast .LINE_NO ;
+                billmast.LINE_NO = mast.LINE_NO == "null" ? "" : mast.LINE_NO;
             }
             var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
@@ -457,7 +519,7 @@ namespace THOK.Wms.Bll.Service
                 BillDetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ()); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString()); //修改
             if (dt != null)
             {
                 int serial = 1;
@@ -473,10 +535,10 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                 }
             }
-          int result= BillMasterRepository.SaveChanges();
-          if (result == -1) return false;
-          else
-              return true;
+            int result = BillMasterRepository.SaveChanges();
+            if (result == -1) return false;
+            else
+                return true;
         }
 
         //获取序列号
@@ -492,14 +554,15 @@ namespace THOK.Wms.Bll.Service
                 };
                 return newSerial;
             }
-            else {
+            else
+            {
                 var newSerial = new
                 {
                     Itemno = 0
                 };
                 return newSerial;
             }
-               
+
         }
 
         //设置混装
@@ -520,8 +583,8 @@ namespace THOK.Wms.Bll.Service
                         billdetail.FPRODUCT_CODE = subdetail.FPRODUCT_CODE;
                     }
                 }
-             int result= BillDetailRepository.SaveChanges();
-             if (result == -1) return false;
+                int result = BillDetailRepository.SaveChanges();
+                if (result == -1) return false;
                 return true;
             }
             catch (Exception ex) { return false; }
@@ -530,16 +593,16 @@ namespace THOK.Wms.Bll.Service
         //删除
         public bool Delete(string BillNo)
         {
-            var deletbillno = BillMasterRepository.GetQueryable().Where(i => i.BILL_NO  == BillNo ).FirstOrDefault();
-            var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO  == BillNo);
+            var deletbillno = BillMasterRepository.GetQueryable().Where(i => i.BILL_NO == BillNo).FirstOrDefault();
+            var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_BILL_DETAIL  sub in tmp)
+            foreach (WMS_BILL_DETAIL sub in tmp)
             {
                 BillDetailRepository.Delete(sub);
             }
             BillMasterRepository.Delete(deletbillno);
-           int result= BillMasterRepository.SaveChanges();
-           if (result == -1) return false;
+            int result = BillMasterRepository.SaveChanges();
+            if (result == -1) return false;
             return true;
         }
 
@@ -552,70 +615,74 @@ namespace THOK.Wms.Bll.Service
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
-           if (billmethod == "2") {  //抽检单
-               billtyp = "3"; 
+            if (billmethod == "2")
+            {  //抽检单
+                billtyp = "3";
             }
-           if (billmethod == "3"||billmethod =="4") {//补料的(即单据类型为入库的);
-               billtyp = "1";
-           }
-          var  billmaster =(from a in billquery
-                            //join h in cellquery on a.BILL_NO equals h.BILL_NO
-                             join b in statequery on a.STATUS equals b.STATE
-                             join c in statequery on a.STATE equals c.STATE
-                             join d in statequery on a.BILL_METHOD equals d.STATE
-                             join e in userquery on a.OPERATER equals e.USER_ID
-                             join f in userquery on a.CHECKER equals f.USER_ID into fg
-                             from f in fg.DefaultIfEmpty()
-                             join g in userquery on a.TASKER equals g.USER_ID into hg
-                             from g in hg.DefaultIfEmpty()
-                             where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
-                             && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtyp
-                             select new
-                             {
-                                 a.BILL_NO,
-                                 a.BILL_DATE,
-                                 a.BTYPE_CODE, //单据类型代码
-                                 a.CMD_BILL_TYPE.BTYPE_NAME,  //单据类型名称
-                                 a.SCHEDULE_NO,
-                                 //a.WAREHOUSE_CODE,
-                                 //a.CMD_WAREHOUSE.WAREHOUSE_NAME,
-                                 //a.SYS_BILL_TARGET.TARGET_NAME, //目标位置名
-                                 //a.TARGET_CODE, //目标位置代码
-                                 a.STATUS,//单据来源代号
-                                 STATUSNAME = b.STATE_DESC,//单据来源描述,手动,系统输入
-                                 a.STATE,//单据状态代号
-                                 //STATENAME = c.STATE_DESC,//单据状态描述
-                                 a.CIGARETTE_CODE,
-                                 a.CMD_CIGARETTE.CIGARETTE_NAME,//牌号名称
-                                 a.FORMULA_CODE,
-                                 a.WMS_FORMULA_MASTER.FORMULA_NAME, //配方名称
-                                 a.BATCH_WEIGHT,
-                                 a.SOURCE_BILLNO,
-                                 OPERATER = e.USER_NAME,
-                                 a.OPERATE_DATE,
-                                 CHECKER = f.USER_NAME,
-                                 a.CHECK_DATE,
-                                 TASKER = g.USER_NAME,
-                                 a.TASK_DATE,
-                                 a.BILL_METHOD,//单据方式代码
-                                 BILLMETHODNAME = d.STATE_DESC,//单据方式描述
-                                 a.SCHEDULE_ITEMNO,
-                                 a.LINE_NO,//制丝线代码
-                                 a.CMD_PRODUCTION_LINE.LINE_NAME //制丝线名
-                             }).Distinct () ;
-          if (billmethod == "2")
-          {  //抽检单
-              billmaster = billmaster.Where(i => (from b in cellquery  where b.BILL_NO ==i.SOURCE_BILLNO  select b.BILL_NO).Contains(i.SOURCE_BILLNO ));
-          }
-          if (billmethod == "3")
-          {//补料的(即单据类型为入库的);
-              billmaster = billmaster.Where(i => (from b in cellquery where b.BILL_NO ==i.BILL_NO select b.BILL_NO).Contains(i.BILL_NO ));
-          }
-          if (billmethod == "4") { //用于抽检补料入库
-              IQueryable<WMS_PRODUCT_STATEH> productstatequery = ProductStateHRepository.GetQueryable();
-              billmaster =billmaster .Where (i=>(from b in productstatequery where  b.BILL_NO==i.BILL_NO && b.OUT_BILLNO !=null select b.BILL_NO).Contains (i.BILL_NO ));
-          }
-            if (!string.IsNullOrEmpty(billno)) {
+            if (billmethod == "3" || billmethod == "4")
+            {//补料的(即单据类型为入库的);
+                billtyp = "1";
+            }
+            var billmaster = (from a in billquery
+                              //join h in cellquery on a.BILL_NO equals h.BILL_NO
+                              join b in statequery on a.STATUS equals b.STATE
+                              join c in statequery on a.STATE equals c.STATE
+                              join d in statequery on a.BILL_METHOD equals d.STATE
+                              join e in userquery on a.OPERATER equals e.USER_ID
+                              join f in userquery on a.CHECKER equals f.USER_ID into fg
+                              from f in fg.DefaultIfEmpty()
+                              join g in userquery on a.TASKER equals g.USER_ID into hg
+                              from g in hg.DefaultIfEmpty()
+                              where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
+                              && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtyp
+                              select new
+                              {
+                                  a.BILL_NO,
+                                  a.BILL_DATE,
+                                  a.BTYPE_CODE, //单据类型代码
+                                  a.CMD_BILL_TYPE.BTYPE_NAME,  //单据类型名称
+                                  a.SCHEDULE_NO,
+                                  //a.WAREHOUSE_CODE,
+                                  //a.CMD_WAREHOUSE.WAREHOUSE_NAME,
+                                  //a.SYS_BILL_TARGET.TARGET_NAME, //目标位置名
+                                  //a.TARGET_CODE, //目标位置代码
+                                  a.STATUS,//单据来源代号
+                                  STATUSNAME = b.STATE_DESC,//单据来源描述,手动,系统输入
+                                  a.STATE,//单据状态代号
+                                  //STATENAME = c.STATE_DESC,//单据状态描述
+                                  a.CIGARETTE_CODE,
+                                  a.CMD_CIGARETTE.CIGARETTE_NAME,//牌号名称
+                                  a.FORMULA_CODE,
+                                  a.WMS_FORMULA_MASTER.FORMULA_NAME, //配方名称
+                                  a.BATCH_WEIGHT,
+                                  a.SOURCE_BILLNO,
+                                  OPERATER = e.USER_NAME,
+                                  a.OPERATE_DATE,
+                                  CHECKER = f.USER_NAME,
+                                  a.CHECK_DATE,
+                                  TASKER = g.USER_NAME,
+                                  a.TASK_DATE,
+                                  a.BILL_METHOD,//单据方式代码
+                                  BILLMETHODNAME = d.STATE_DESC,//单据方式描述
+                                  a.SCHEDULE_ITEMNO,
+                                  a.LINE_NO,//制丝线代码
+                                  a.CMD_PRODUCTION_LINE.LINE_NAME //制丝线名
+                              }).Distinct();
+            if (billmethod == "2")
+            {  //抽检单
+                billmaster = billmaster.Where(i => (from b in cellquery where b.BILL_NO == i.SOURCE_BILLNO select b.BILL_NO).Contains(i.SOURCE_BILLNO));
+            }
+            if (billmethod == "3")
+            {//补料的(即单据类型为入库的);
+                billmaster = billmaster.Where(i => (from b in cellquery where b.BILL_NO == i.BILL_NO select b.BILL_NO).Contains(i.BILL_NO));
+            }
+            if (billmethod == "4")
+            { //用于抽检补料入库
+                IQueryable<WMS_PRODUCT_STATEH> productstatequery = ProductStateHRepository.GetQueryable();
+                billmaster = billmaster.Where(i => (from b in productstatequery where b.BILL_NO == i.BILL_NO && b.OUT_BILLNO != null select b.BILL_NO).Contains(i.BILL_NO));
+            }
+            if (!string.IsNullOrEmpty(billno))
+            {
                 //string info = billno.Split(':')[0];
                 string[] val = billno.Split(':');
                 if (!string.IsNullOrEmpty(val[0]))
@@ -701,7 +768,7 @@ namespace THOK.Wms.Bll.Service
                 List<WMS_BILL_DETAIL> detaillist = new List<WMS_BILL_DETAIL>();
 
                 //DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ());
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
 
@@ -758,7 +825,7 @@ namespace THOK.Wms.Bll.Service
 
             var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_PRODUCT_STATE  sub in tmp)
+            foreach (WMS_PRODUCT_STATE sub in tmp)
             {
                 ProductStateRepository.Delete(sub);
             }
@@ -766,7 +833,7 @@ namespace THOK.Wms.Bll.Service
             WMS_BILL_DETAIL[] billdetaillist = billdetails.ToArray();
             BillDetailRepository.Delete(billdetaillist);
 
-            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ()); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString()); //修改
             if (dt != null)
             {
                 int serial = 1;
@@ -790,7 +857,7 @@ namespace THOK.Wms.Bll.Service
                     WMS_BILL_DETAIL exits = detaillist.Find(i => i.PRODUCT_CODE == subdetail.PRODUCT_CODE);
                     if (exits != null) exits.PACKAGE_COUNT += 1;
                     else detaillist.Add(billdetail);
-                    
+
                     ProductStateRepository.Add(subdetail);
                     serial++;
                 }
@@ -814,7 +881,7 @@ namespace THOK.Wms.Bll.Service
             var deletbillno = BillMasterRepository.GetQueryable().Where(i => i.BILL_NO == BillNo).FirstOrDefault();
             var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_PRODUCT_STATE  sub in tmp)
+            foreach (WMS_PRODUCT_STATE sub in tmp)
             {
                 ProductStateRepository.Delete(sub);
             }
@@ -831,8 +898,8 @@ namespace THOK.Wms.Bll.Service
         //抽检补料入库单作业
         public bool FillBillTask(string BillNo, string tasker)
         {
-            var billmast = BillMasterRepository.GetQueryable().FirstOrDefault (i=>i.BILL_NO ==BillNo );
-            var productstatequery = ProductStateRepository.GetQueryable().Where (i=>i.BILL_NO ==BillNo );
+            var billmast = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
+            var productstatequery = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
             var tmp = productstatequery.ToArray().AsEnumerable().Select(i => i);
             string soursebillno = billmast.SOURCE_BILLNO;
             if (billmast.BILL_METHOD == "2") //抽检
@@ -866,11 +933,12 @@ namespace THOK.Wms.Bll.Service
                 billmast.TASK_DATE = DateTime.Now;
                 billmast.TASKER = tasker;
                 billmast.STATE = "3";
-               int result= BillMasterRepository.SaveChanges();
-               if (result == -1) return false;
-               else  return true;
+                int result = BillMasterRepository.SaveChanges();
+                if (result == -1) return false;
+                else return true;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return false;
             }
         }
@@ -888,32 +956,33 @@ namespace THOK.Wms.Bll.Service
                                select new { a.SHELF_CODE };
             var cells = (from a in cellquery
                          join b in productstate on a.PRODUCT_BARCODE equals b.PRODUCT_BARCODE
-                         join s in usefullshelf on a.SHELF_CODE equals s.SHELF_CODE 
-                        select new { 
-                            a.CELL_CODE ,
-                            a.CELL_ROW ,
-                            a.SHELF_CODE ,
-                            a.CELL_NAME ,
-                            a.PRODUCT_CODE,
-                            a.PRODUCT_BARCODE,
-                            a.CMD_PRODUCT .PRODUCT_NAME ,
-                            a.CMD_PRODUCT .WEIGHT ,
-                            a.PALLET_CODE ,
-                            a.BILL_NO ,
-                            a.REAL_WEIGHT ,
-                            a.WAREHOUSE_CODE ,
-                            a.IN_DATE,
-                            PACKAGE_COUNT = 1,
-                            a.IS_LOCK ,
-                            a.IS_ACTIVE,
-                            a.ERROR_FLAG,
-                            b.IS_MIX 
-                        }).Distinct ();
-            var temp = cells.Where(i => i.PRODUCT_CODE != null&&i.IS_LOCK =="0"&&i.IS_ACTIVE=="1"&&i.ERROR_FLAG=="0").OrderBy(i => i.CELL_CODE ).Select(i => new
+                         join s in usefullshelf on a.SHELF_CODE equals s.SHELF_CODE
+                         select new
+                         {
+                             a.CELL_CODE,
+                             a.CELL_ROW,
+                             a.SHELF_CODE,
+                             a.CELL_NAME,
+                             a.PRODUCT_CODE,
+                             a.PRODUCT_BARCODE,
+                             a.CMD_PRODUCT.PRODUCT_NAME,
+                             a.CMD_PRODUCT.WEIGHT,
+                             a.PALLET_CODE,
+                             a.BILL_NO,
+                             a.REAL_WEIGHT,
+                             a.WAREHOUSE_CODE,
+                             a.IN_DATE,
+                             PACKAGE_COUNT = 1,
+                             a.IS_LOCK,
+                             a.IS_ACTIVE,
+                             a.ERROR_FLAG,
+                             b.IS_MIX
+                         }).Distinct();
+            var temp = cells.Where(i => i.PRODUCT_CODE != null && i.IS_LOCK == "0" && i.IS_ACTIVE == "1" && i.ERROR_FLAG == "0").OrderBy(i => i.CELL_CODE).Select(i => new
             {
                 i.CELL_CODE,
-                i.CELL_ROW ,
-               i.SHELF_CODE ,
+                i.CELL_ROW,
+                i.SHELF_CODE,
                 i.CELL_NAME,
                 i.PRODUCT_CODE,
                 i.PRODUCT_NAME,
@@ -927,21 +996,27 @@ namespace THOK.Wms.Bll.Service
                 i.IS_MIX,
                 i.IN_DATE
             });
-            if (!string.IsNullOrEmpty(soursebill)) {
-                temp = temp.Where(i => i.BILL_NO==soursebill );
+            if (!string.IsNullOrEmpty(soursebill))
+            {
+                temp = temp.Where(i => i.BILL_NO == soursebill);
             }
-            if (!string.IsNullOrEmpty(queryinfo)) {
+            if (!string.IsNullOrEmpty(queryinfo))
+            {
                 string info = queryinfo.Split(':')[0];
                 string val = queryinfo.Split(':')[1];
-                if (!string.IsNullOrEmpty(val)) {
-                    if (info == "cellcode") { //货位号查询
-                        temp =temp .Where (i=>i.CELL_CODE==val);
+                if (!string.IsNullOrEmpty(val))
+                {
+                    if (info == "cellcode")
+                    { //货位号查询
+                        temp = temp.Where(i => i.CELL_CODE == val);
                     }
-                    else if (info == "productcode"){//产品编号查询
-                        temp = temp.Where(i => i.PRODUCT_CODE==val);
+                    else if (info == "productcode")
+                    {//产品编号查询
+                        temp = temp.Where(i => i.PRODUCT_CODE == val);
                         //temp = temp.Where(i =>i.CELL_ROW<3);
                     }
-                    else {  //产品条码查询
+                    else
+                    {  //产品条码查询
                         temp = temp.Where(i => i.PRODUCT_BARCODE.Contains(val));
                     }
                 }
@@ -960,7 +1035,7 @@ namespace THOK.Wms.Bll.Service
         public bool InventoryAdd(WMS_BILL_MASTER mast, object detail, string prefix)
         {
             var targetcode = CmdBillTypeRepository.GetQueryable().FirstOrDefault(i => i.BTYPE_CODE == mast.BTYPE_CODE);
-            List<WMS_BILL_DETAIL > detaillist = new List<WMS_BILL_DETAIL>();
+            List<WMS_BILL_DETAIL> detaillist = new List<WMS_BILL_DETAIL>();
             bool rejust = false;
             int serial = 1;
             try
@@ -974,7 +1049,7 @@ namespace THOK.Wms.Bll.Service
                 BillMasterRepository.Add(mast);
 
                 //DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ());
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
 
@@ -1005,7 +1080,7 @@ namespace THOK.Wms.Bll.Service
                 serial = 1;
                 foreach (WMS_BILL_DETAIL item in detaillist)
                 {
-                    item.ITEM_NO = serial ;
+                    item.ITEM_NO = serial;
                     BillDetailRepository.Add(item);
                     serial++;
                 }
@@ -1042,7 +1117,7 @@ namespace THOK.Wms.Bll.Service
             WMS_BILL_DETAIL[] billdetaillist = billdetails.ToArray();
             BillDetailRepository.Delete(billdetaillist);
 
-            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString ()); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString()); //修改
             if (dt != null)
             {
                 int serial = 1;
@@ -1140,7 +1215,7 @@ namespace THOK.Wms.Bll.Service
                     task.PRODUCT_TYPE = "1";
                     task.IS_MIX = item.IS_MIX;
                     var cell = cellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == item.CELL_CODE);
-                    task.SOURCE_BILLNO =cell .BILL_NO ;
+                    task.SOURCE_BILLNO = cell.BILL_NO;
                     ////锁定货位
                     //var cell = cellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == item.CELL_CODE);
                     //cell.IS_LOCK = "1";
@@ -1223,7 +1298,8 @@ namespace THOK.Wms.Bll.Service
             var nullcell = from c in cellquery
                            join s in usefullshelf on c.SHELF_CODE equals s.SHELF_CODE
                            where c.PRODUCT_CODE == null && c.IS_ACTIVE == "1" && c.ERROR_FLAG == "0" && c.IS_LOCK == "0"
-                           select new {
+                           select new
+                           {
                                c.CELL_CODE,
                                c.CELL_COLUMN,
                                c.CELL_NAME,
@@ -1253,7 +1329,8 @@ namespace THOK.Wms.Bll.Service
             //    i.IS_LOCK,
             //    i.IS_ACTIVE
             //});
-            if (!string.IsNullOrEmpty(queryinfo)) {
+            if (!string.IsNullOrEmpty(queryinfo))
+            {
                 string info = queryinfo.Split(':')[0];
                 string val = queryinfo.Split(':')[1];
                 if (!string.IsNullOrEmpty(val))
@@ -1265,7 +1342,7 @@ namespace THOK.Wms.Bll.Service
                     else if (info == "cellcolumn")
                     { //列位查询
                         decimal colum = decimal.Parse(val);
-                        temp = temp.Where(i => i.CELL_COLUMN==colum );
+                        temp = temp.Where(i => i.CELL_COLUMN == colum);
                     }
                     else if (info == "cellrow")
                     {//层位查询
@@ -1303,7 +1380,7 @@ namespace THOK.Wms.Bll.Service
                 BillMasterRepository.Add(mast);
 
                 //DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ());
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
 
@@ -1321,19 +1398,21 @@ namespace THOK.Wms.Bll.Service
                     var newcell = cellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == subdetail.NEWCELL_CODE);
                     if (newcell.IS_LOCK == "1")
                     {
-                        error= newcell.CELL_CODE + "货位已被锁定.";
+                        error = newcell.CELL_CODE + "货位已被锁定.";
                         return false;
                     }
-                    else if (newcell .PRODUCT_CODE  !=null )
+                    else if (newcell.PRODUCT_CODE != null)
                     {
                         error = newcell.CELL_CODE + "该货位,已有货物,请选空的货位.";
                         return false;
                     }
-                    else if (newcell.IS_ACTIVE == "0") {
+                    else if (newcell.IS_ACTIVE == "0")
+                    {
                         error = newcell.CELL_CODE + "该货位,已被禁用.";
                         return false;
                     }
-                    else if (newcell.ERROR_FLAG == "1") {
+                    else if (newcell.ERROR_FLAG == "1")
+                    {
                         error = newcell.CELL_CODE + "该货位,目前有异常.";
                         return false;
                     }
@@ -1404,7 +1483,7 @@ namespace THOK.Wms.Bll.Service
             BillDetailRepository.Delete(billdetaillist);
             try
             {
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail .ToString ()); //修改
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString()); //修改
                 if (dt != null)
                 {
                     int serial = 1;
@@ -1598,17 +1677,20 @@ namespace THOK.Wms.Bll.Service
             {
                 //string info = queryinfo.Split(':')[0];
                 string[] val = queryinfo.Split(':');
-                if(!string .IsNullOrEmpty (val[0])){
+                if (!string.IsNullOrEmpty(val[0]))
+                {
                     string billno = val[0];
                     billmaster = billmaster.Where(i => i.BILL_NO == billno);
                 }
-                if (!string.IsNullOrEmpty(val[1])) {
+                if (!string.IsNullOrEmpty(val[1]))
+                {
                     string cigarete = val[1];
                     billmaster = billmaster.Where(i => i.CIGARETTE_CODE == cigarete);
                 }
-                if(!string .IsNullOrEmpty (val[2])){
+                if (!string.IsNullOrEmpty(val[2]))
+                {
                     string formula = val[2];
-                    billmaster = billmaster.Where(i => i.FORMULA_CODE ==formula);
+                    billmaster = billmaster.Where(i => i.FORMULA_CODE == formula);
                 }
                 //if (!string.IsNullOrEmpty(val))
                 //{
@@ -1620,10 +1702,10 @@ namespace THOK.Wms.Bll.Service
                 //        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
                 //}
             }
-            billmaster =billmaster .Where (i=>!("1,2".Contains (i.STATE ))&&i.BTYPE_CODE !="005");//状态为作业以上的.
+            billmaster = billmaster.Where(i => !("1,2".Contains(i.STATE)) && i.BTYPE_CODE != "005");//状态为作业以上的.
             billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE);
-                int total = billmaster.Count();
-                billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+            int total = billmaster.Count();
+            billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
 
             var temp = billmaster.ToArray().Select(i => new
             {
@@ -1659,7 +1741,7 @@ namespace THOK.Wms.Bll.Service
                 i.SOURCE_BILLNO,
                 i.LINE_NAME
             });
-            return new { total, rows = temp};
+            return new { total, rows = temp };
         }
 
         //紧急补料单新增
@@ -1680,7 +1762,7 @@ namespace THOK.Wms.Bll.Service
                 BillMasterRepository.Add(mast);
 
                 //DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
-                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString ());
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString());
                 foreach (DataRow dr in dt.Rows)
                 {
 
@@ -1713,12 +1795,12 @@ namespace THOK.Wms.Bll.Service
 
             var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_BILL_DETAIL  sub in tmp)
+            foreach (WMS_BILL_DETAIL sub in tmp)
             {
                 BillDetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString ()); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(detail.ToString()); //修改
             if (dt != null)
             {
                 int serial = 1;
@@ -1727,7 +1809,7 @@ namespace THOK.Wms.Bll.Service
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     //try
                     //{
-                        THOK.Common.ConvertData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     //}
                     //catch (Exception ex) { }
                     subdetail.ITEM_NO = serial;
@@ -1749,7 +1831,7 @@ namespace THOK.Wms.Bll.Service
             IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
-            var billdetail =from a in detailquery
+            var billdetail = from a in detailquery
                              join b in statequery on a.IS_MIX equals b.STATE
                              join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                              where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
@@ -1769,18 +1851,19 @@ namespace THOK.Wms.Bll.Service
                                  a.IS_MIX,
                                  a.PACKAGE_COUNT
                              };
-            var temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new {
-                i.BILL_NO ,
-                i.PRODUCT_CODE ,
-                i.PRODUCT_NAME ,
+            var temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new
+            {
+                i.BILL_NO,
+                i.PRODUCT_CODE,
+                i.PRODUCT_NAME,
                 i.WEIGHT,
-                REAL_WEIGHT ="",
-                PACKAGE_COUNT="",
-                IS_MIX="0"
-            }).Distinct ();
+                REAL_WEIGHT = "",
+                PACKAGE_COUNT = "",
+                IS_MIX = "0"
+            }).Distinct();
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp};
+            return new { total, rows = temp };
         }
 
         //专门用于紧急补料中获取入库批次下的明细.
@@ -1808,25 +1891,25 @@ namespace THOK.Wms.Bll.Service
                                  a.WEIGHT,
                                  a.REAL_WEIGHT,
                                  a.IS_MIX,
-                                 IS_MIXDESC= b.STATE_DESC,
-                                 a.FPRODUCT_CODE ,
+                                 IS_MIXDESC = b.STATE_DESC,
+                                 a.FPRODUCT_CODE,
                                  a.PACKAGE_COUNT
                              };
-            var nolockcell = cellquery.Where(i => i.BILL_NO == BillNo && i.IS_LOCK == "0" && i.ERROR_FLAG == "0" && i.IS_ACTIVE == "1").Select (i=>i);
+            var nolockcell = cellquery.Where(i => i.BILL_NO == BillNo && i.IS_LOCK == "0" && i.ERROR_FLAG == "0" && i.IS_ACTIVE == "1").Select(i => i);
             var _temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new
             {
                 i.BILL_NO,
                 i.PRODUCT_CODE,
                 i.PRODUCT_NAME,
-                i.GRADE_NAME ,
-                i.ORIGINAL_NAME ,
-                i.YEARS ,
+                i.GRADE_NAME,
+                i.ORIGINAL_NAME,
+                i.YEARS,
                 i.WEIGHT,
-                i.REAL_WEIGHT ,
-                PACKAGE_COUNT=(nolockcell .Where (a=>a.PRODUCT_CODE ==i.PRODUCT_CODE ).Count ()) ,
-                i.IS_MIX ,
+                i.REAL_WEIGHT,
+                PACKAGE_COUNT = (nolockcell.Where(a => a.PRODUCT_CODE == i.PRODUCT_CODE).Count()),
+                i.IS_MIX,
                 i.IS_MIXDESC,
-                i.FPRODUCT_CODE 
+                i.FPRODUCT_CODE
             });
             var temp = _temp.Where(i => i.PACKAGE_COUNT > 0).Select(i => i);
             int total = temp.Count();
@@ -1835,20 +1918,20 @@ namespace THOK.Wms.Bll.Service
         }
 
         //结束损益单作业
-        public bool StockdifferTaskover(string BillNo,string tasker)
+        public bool StockdifferTaskover(string BillNo, string tasker)
         {
             var billquery = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
             if (billquery != null)
             {
-                billquery.TASK_DATE  = DateTime.Now;
-                billquery.TASKER  = tasker;
+                billquery.TASK_DATE = DateTime.Now;
+                billquery.TASKER = tasker;
                 billquery.STATE = "3";
                 int result = BillMasterRepository.SaveChanges();
                 if (result == -1) return false;
             }
             else
                 return false;
-            return true;   
+            return true;
         }
 
         //取消任务
@@ -1879,7 +1962,7 @@ namespace THOK.Wms.Bll.Service
             //}
             //return isok;
 
-            string sqlstr = "begin CANCEWORK('" + BillNo  + "');end;";
+            string sqlstr = "begin CANCEWORK('" + BillNo + "');end;";
             //string sqlstr = "update WMS_BILL_MASTER set state='2' where bill_no='"+billno+"' ";
             int result = ProductStateRepository.Exeprocedure(sqlstr, out error);
             //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");

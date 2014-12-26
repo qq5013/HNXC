@@ -13,8 +13,12 @@
                                         title: '成功',
                                         msg: result.msg
                                     });
-                                    rowindex = $('#details').datagrid('getRowIndex', row);
-                                    $('#details').datagrid('reload');
+                                    $.getJSON("/Feeding/Unlock/?BillNo=" + encodeURIComponent(row.BILL_NO), function (result) {
+                                        rowindex = $('#details').datagrid('getRowIndex', row);
+                                        $('#details').datagrid('reload');
+                                    })
+
+                                    
 //                                    $('#SubDetails').datagrid('reload');
                                 } else {
                                     $.messager.show({

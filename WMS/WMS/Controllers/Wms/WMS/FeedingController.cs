@@ -150,6 +150,18 @@ namespace WMS.Controllers.Wms.WMS
             var msg = new { retruinfo = result };
             return Json(msg, "text", JsonRequestBehavior.AllowGet);
         }
+        //锁定货位
+        public ActionResult Lock(string BillNo)
+        {
+            var products = BillMasterService.Lock(BillNo);
+            return Json(products, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        //解锁货位
+        public ActionResult Unlock(string BillNo)
+        {
+            var products = BillMasterService.Unlock(BillNo);
+            return Json(products, "text/html", JsonRequestBehavior.AllowGet);
+        }
 
     }
 }
