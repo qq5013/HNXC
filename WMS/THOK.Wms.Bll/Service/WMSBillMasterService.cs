@@ -918,7 +918,7 @@ namespace THOK.Wms.Bll.Service
                     task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
                     task.PRODUCT_CODE = item.PRODUCT_CODE;
                     task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
-                    task.PALLET_CODE = item.PRODUCT_BARCODE;
+                    task.PALLET_CODE = item.PRODUCT_BARCODE.Length < 90 ? item.PRODUCT_BARCODE : item.PRODUCT_BARCODE.Substring(0, 69) + item.PRODUCT_BARCODE.Substring(80, 21);
                     task.REAL_WEIGHT = item.REAL_WEIGHT;
                     task.TARGET_CODE = billmast.TARGET_CODE;
                     task.STATE = "0";
@@ -930,6 +930,7 @@ namespace THOK.Wms.Bll.Service
                     WcsTaskRepository.Add(task);
                     serial++;
                 }
+                WcsTaskRepository.SaveChanges();
                 billmast.TASK_DATE = DateTime.Now;
                 billmast.TASKER = tasker;
                 billmast.STATE = "3";
