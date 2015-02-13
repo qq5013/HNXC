@@ -107,8 +107,12 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(BILL_DATE))
             {
+                //DateTime billdt = DateTime.Parse(BILL_DATE);
+                //billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(billdt) == 0);
                 DateTime billdt = DateTime.Parse(BILL_DATE);
-                billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(billdt) == 0);
+                DateTime billdt2 = billdt.AddDays(1);
+                billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(billdt) >= 0);
+                billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(billdt2) < 0);
             }
             if (!string.IsNullOrEmpty(BTYPE_CODE))
             {
