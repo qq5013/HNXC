@@ -15,7 +15,7 @@
         if (row) {
             if (row.STATE == "2") { //已审核状态下
                 if (method == "1") { //自动作业
-                    $.getJSON("/StockOutWork/Task/?BillNo=" + row.BILL_NO + '&cigarettecode=' + row.CIGARETTE_CODE + '&formulacode=' + row.FORMULA_CODE + '&batchweight=' + row.BATCH_WEIGHT, function (json) {
+                    $.getJSON("/StockOutWork/Task/?BillNo=" + encodeURIComponent(row.BILL_NO) + '&cigarettecode=' + row.CIGARETTE_CODE + '&formulacode=' + encodeURIComponent(row.FORMULA_CODE) + '&batchweight=' + row.BATCH_WEIGHT, function (json) {
                         if (json) {
                             $.messager.show({
                                 title: '提示',
@@ -29,7 +29,7 @@
                 }
                 else { //手动作业
                     $('#Dlg_DetailData').dialog('open').dialog('setTitle', '选择烟包');
-                    $('#Detaildata').datagrid({ url: '/StockOutBill/GetSubDetail/?page=1&rows=100&BillNo=' + row.BILL_NO,
+                    $('#Detaildata').datagrid({ url: '/StockOutBill/GetSubDetail/?page=1&rows=100&BillNo=' + encodeURIComponent(row.BILL_NO),
                         onLoadSuccess: function (data) {
                             productscell = [];
                             for (var i = 0; i < data.total; i++) {
@@ -61,7 +61,7 @@
                 allcellstr += productscell[index].cellstr;
        }
        var row = $('#details').datagrid('getSelected');
-       $.getJSON("/StockOutWork/TaskSD/?BillNo=" + row.BILL_NO + '&cellstr=' + allcellstr, function (json) {
+       $.getJSON("/StockOutWork/TaskSD/?BillNo=" + encodeURIComponent(row.BILL_NO) + '&cellstr=' + allcellstr, function (json) {
            if (json) {
                $.messager.show({
                    title: '提示',

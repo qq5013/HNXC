@@ -6,7 +6,7 @@
             var row = $('#details').datagrid('getSelected');
             if (row) {
 //                $('#SubDetails').datagrid('options').url = '/StockOutBill/GetSubDetail/?BillNo=' + row.BILL_NO;
-                $('#SubDetails').datagrid({ url: '/StockOutBill/GetSubDetail/?BillNo=' + row.BILL_NO });
+                $('#SubDetails').datagrid({ url: '/StockOutBill/GetSubDetail/?BillNo=' + encodeURIComponent(row.BILL_NO) });
 //                                $('#SubDetails').datagrid('reload');
             }
             else {

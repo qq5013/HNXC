@@ -5,7 +5,7 @@
         //        $('#WSubDetails').datagrid({ url: '/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + row.BILL_NO });
         if (row.STATE == 3) {
             $('#dlg-wbarcode').dialog('open').dialog('setTitle', '录条码');
-            loaddata('/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + row.BILL_NO);
+            loaddata('/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + encodeURIComponent(row.BILL_NO));
         }
         else if (row.STATE < 3) {
             alert('该记录还未作业无法录条码！')
@@ -64,7 +64,7 @@
         $('#detailjson').val(barcodestr);
         try {
             $('#fm').form('submit', {
-                url: "/StockInWork/Setbarcode/?billno=" + row.BILL_NO,
+                url: "/StockInWork/Setbarcode/?billno=" + encodeURIComponent(row.BILL_NO),
                 onSubmit: function () {
                   
                 },
