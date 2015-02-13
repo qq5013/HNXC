@@ -93,7 +93,7 @@ namespace THOK.Wms.Bll.Service
                               a.IS_MIX, //是否混装代码
                               IS_MIXDESC = b.STATE_DESC  //是否混装,文字显示
                           };
-            var temp = details.Where(i => i.BILL_NO == billno).OrderBy(i => i.ITEM_NO).OrderBy(i => i.FORDER).Select(i => i);
+            var temp = details.Where(i => i.BILL_NO == billno).OrderBy(i => i.FORDER).ThenBy(i => i.PRODUCT_CODE).Select(i => i);
 
             //var temp = details.Where(i => i.BILL_NO == billno).OrderBy(i => i.FORDER).OrderBy (i=>i.ITEM_NO).Select(i => i);
             int total = temp.Count();

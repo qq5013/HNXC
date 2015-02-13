@@ -101,7 +101,8 @@ namespace THOK.Wms.Bll.Service
         public object GetSubDetails(int page, int rows, string FORMULA_CODE)
         {
             IQueryable<WMS_FORMULA_DETAIL> DetailQuery = DetailRepository.GetQueryable();
-            var Details = DetailQuery.OrderBy(i => i.FORMULA_CODE).Select(i => new {
+            var Details = DetailQuery.OrderBy(i => i.FORDER).ThenBy(i => i.PRODUCT_CODE).Select(i => new
+            {
                   i.FORMULA_CODE,
                   i.PRODUCT_CODE,
                   i.CMD_PRODUCT.GRADE_CODE ,
